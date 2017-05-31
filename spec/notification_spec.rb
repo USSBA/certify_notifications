@@ -2,12 +2,12 @@ require "spec_helper"
 
 #rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
 RSpec.describe CertifyNotifications::Notification do
-  describe "list operations" do
+  describe "get notifications operations" do
     context "for getting notifications" do
       before do
         @mock = NotificationSpecHelper.mock_notifications
         Excon.stub({}, body: @mock.to_json, status: 200)
-        @notifications = CertifyNotifications::Notification.find({application_id: 1})
+        @notifications = CertifyNotifications::Notification.find({recipient_id: 1})
         @body = @notifications[:body]
       end
 
@@ -15,11 +15,11 @@ RSpec.describe CertifyNotifications::Notification do
         expect(@notifications[:status]).to eq(200)
       end
 
-      it "should return an array of conversations" do
+      it "should return an array of notifications" do
         expect(@body.length).to be > 0
       end
 
-      it "should contain valid conversation attributes" do
+      it "should contain valid notifications attributes" do
         expect(@body[0]["body"]).to be
         expect(@body[0]["evt_type"]).to be
       end
@@ -48,7 +48,7 @@ RSpec.describe CertifyNotifications::Notification do
           CertifyNotifications::Resource.clear_connection
           Excon.defaults[:mock] = false
           # reextend the endpoint to a dummy url
-          @notifications = CertifyNotifications::Notification.find({application_id: 1})
+          @notifications = CertifyNotifications::Notification.find({id: 1})
         end
 
         after do

@@ -1,5 +1,5 @@
 # Creates mock hashes to be used in simulating notifications
-module MessageSpecHelper
+module NotificationSpecHelper
   def self.json
     JSON.parse(response.body)
   end
@@ -12,6 +12,8 @@ module MessageSpecHelper
     { id: Faker::Number.number(10),
       body: Faker::StarWars.wookie_sentence,
       evt_type: Faker::StarWars.quote,
+      recipient_id: Faker::Number.number(10),
+      read: Faker::Boolean.boolean,
       created_date: Date.today,
       updated_date: Date.today }
   end

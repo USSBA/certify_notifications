@@ -10,11 +10,10 @@ RSpec.describe CertifyNotifications do
   end
 
   it "should specify the notification API version" do
-    expect(CertifyNotifications.configuration.not_api_version).to eq(1)
+    expect(CertifyNotifications.configuration.notify_api_version).to eq(1)
   end
 
   it "should have a Notification class" do
     expect(CertifyNotifications::Notification.new).to be
   end
-
 end
