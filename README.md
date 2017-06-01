@@ -24,7 +24,7 @@ This will pull the head of the develop branch in as a gem.  If there are updates
 * Then `rake build` to build the gem, this builds the .gem file in /pkg
 * Jump over to the folder of the the app where you want to use them and follow the instructions below within that app/repo, for example, if working with the [Shared-Services Prototype](https://github.com/SBA-ONE/shared-services-prototype):
   * Copy the .gem into the folder `vendor/gems/certify_notifications`
-  * In the app where you want to use the gem, do `gem install <path to gem>` e.g. `gem install vendor/gems/certify_notifications/certify_notifications-0.2.0.gem`
+  * In the app where you want to use the gem, do `gem install <path to gem>` e.g. `gem install vendor/gems/certify_notifications/certify_notifications-0.1.0.gem`
   * add `gem 'certify_notifications'` to your Gemfile
   * `bundle install`
   * If this worked correctly, you should see `certify_notifications` in your `Gemfile.lock`
