@@ -44,7 +44,7 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_safe_params(params)
-      permitted_keys = %w[id body recipient_id read]
+      permitted_keys = %w[id body recipient_id read link_url evt_type]
       params.select { |key, _| permitted_keys.include? key.to_s }
     end
 
