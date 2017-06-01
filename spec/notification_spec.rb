@@ -22,6 +22,7 @@ RSpec.describe CertifyNotifications::Notification do
       it "should contain valid notifications attributes" do
         expect(@body[0]["body"]).to be
         expect(@body[0]["evt_type"]).to be
+        expect(@body[0]["recipient_id"]).to be
       end
     end
 
@@ -64,136 +65,80 @@ RSpec.describe CertifyNotifications::Notification do
     end
   end
 
-  # describe "create operations" do
-  #   context "for creating new conversations" do
-  #     before do
-  #       @mock = MessageSpecHelper.mock_conversation
-  #       Excon.stub({}, body: @mock.to_json, status: 201)
-  #       @conversation = CertifyNotifications::Conversation.create(@mock)
-  #       @body = @conversation[:body]
-  #     end
+  describe "create operations" do
+    context "for creating new notifications" do
+      before do
+        @mock = NotificationSpecHelper.mock_notification
+        Excon.stub({}, body: @mock.to_json, status: 201)
+        @notification = CertifyNotifications::Notification.create(@mock)
+        @body = @notification[:body]
+      end
 
-  #     it "should return the correct post response" do
-  #       expect(@conversation[:status]).to eq(201)
-  #     end
+      it "should return the correct post response" do
+        expect(@notification[:status]).to eq(201)
+      end
 
-  #     it "should return the new conversation object" do
-  #       expect(@body["id"]).to eq(@mock[:id])
-  #       expect(@body["application_id"]).to eq(@mock[:application_id])
-  #       expect(@body["analyst_id"]).to eq(@mock[:analyst_id])
-  #       expect(@body["contributor_id"]).to eq(@mock[:contributor_id])
-  #       expect(@body["subject"]).to eq(@mock[:subject])
-  #     end
-  #   end
+      it "should return the new notification object" do
+        expect(@body["id"]).to eq(@mock[:id])
+        expect(@body["body"]).to eq(@mock[:body])
+        expect(@body["link_url"]).to eq(@mock[:link_url])
+        expect(@body["evt_type"]).to eq(@mock[:evt_type])
+        expect(@body["recipient_id"]).to eq(@mock[:recipient_id])
+        expect(@body["read"]).to eq(@mock[:read])
+      end
+    end
 
-  #   context "handles errors" do
+    context "handles errors" do
 
-  #     context "empty parameters" do
-  #       before do
-  #         @conversation = CertifyNotifications::Conversation.create({})
-  #         @body = @conversation[:body]
-  #       end
-  #       it "should return an error message when a no parameters are sent" do
-  #         expect(@body).to eq("Invalid parameters submitted")
-  #       end
+      context "empty parameters" do
+        before do
+          @notification = CertifyNotifications::Notification.create({})
+          @body = @notification[:body]
+        end
+        it "should return an error message when a no parameters are sent" do
+          expect(@body).to eq("Invalid parameters submitted")
+        end
 
-  #       it "should return a 422 http status" do
-  #         expect(@conversation[:status]).to eq(422)
-  #       end
-  #     end
+        it "should return a 422 http status" do
+          expect(@notification[:status]).to eq(422)
+        end
+      end
 
-  #     context "bad parameters" do
-  #       before do
-  #         @conversation = CertifyNotifications::Conversation.create({foo: 'bar'})
-  #         @body = @conversation[:body]
-  #       end
-  #       it "should return an error message when a bad parameter is sent" do
-  #         expect(@body).to eq("Invalid parameters submitted")
-  #       end
+      context "bad parameters" do
+        before do
+          @notification = CertifyNotifications::Notification.create({foo: 'bar'})
+          @body = @notification[:body]
+        end
+        it "should return an error message when a bad parameter is sent" do
+          expect(@body).to eq("Invalid parameters submitted")
+        end
 
-  #       it "should return a 422 http status" do
-  #         expect(@conversation[:status]).to eq(422)
-  #       end
-  #     end
+        it "should return a 422 http status" do
+          expect(@notification[:status]).to eq(422)
+        end
+      end
 
-  #     # this will work if the API is disconnected, but I can't figure out how to
-  #     # fake the Excon connection to force it to fail in a test env.
-  #     context "api not found" do
-  #       before do
-  #         CertifyNotifications::Resource.clear_connection
-  #         Excon.defaults[:mock] = false
-  #         @conversation = CertifyNotifications::Conversation.create({application_id: 1})
-  #       end
+      # this will work if the API is disconnected, but I can't figure out how to
+      # fake the Excon connection to force it to fail in a test env.
+      context "api not found" do
+        before do
+          CertifyNotifications::Resource.clear_connection
+          Excon.defaults[:mock] = false
+          @notification = CertifyNotifications::Notification.create({id: 1})
+        end
 
-  #       after do
-  #         CertifyNotifications::Resource.clear_connection
-  #         Excon.defaults[:mock] = true
-  #       end
+        after do
+          CertifyNotifications::Resource.clear_connection
+          Excon.defaults[:mock] = true
+        end
 
-  #       it "should return a 503" do
-  #         expect(@conversation[:status]).to eq(503)
-  #       end
-  #     end
-  #   end
+        it "should return a 503" do
+          expect(@notification[:status]).to eq(503)
+        end
+      end
+    end
+  end
 
-  #   context "should create a conversation with a new message" do
-  #     context "when given good parameters" do
-  #       before do
-  #         @mock = MessageSpecHelper.mock_conversation
-  #         @mock[:body] = Faker::HarryPotter.quote
-  #         Excon.stub({}, body: @mock.to_json, status: 201)
-  #         @response = CertifyNotifications::Conversation.create_with_message(@mock)
-  #       end
-
-  #       context "the newly created conversation" do
-  #         it "should return 201" do
-  #           expect(@response[:conversation][:status]).to eq(201)
-  #         end
-
-  #         it "should have the correct subject" do
-  #           expect(@response[:conversation][:body][:subject]).to eq(@mock["subject"])
-  #         end
-  #       end
-
-  #       context "the newly created message" do
-  #         it "should return 201" do
-  #           expect(@response[:message][:status]).to eq(201)
-  #         end
-
-  #         it "should have the correct body" do
-  #           expect(@response[:message][:body]["body"]).to eq(@mock[:body])
-  #         end
-  #       end
-  #     end
-
-  #     context "when given bad parameters" do
-  #       before do
-  #         @mock = MessageSpecHelper.mock_conversation
-  #         @mock[:subject] = nil
-  #         Excon.stub({}, body: @mock.to_json, status: 422)
-  #         @response = CertifyNotifications::Conversation.create_with_message(@mock)
-  #       end
-
-  #       context "the newly created conversation" do
-  #         it "should return 422" do
-  #           expect(@response[:conversation][:status]).to eq(422)
-  #         end
-
-  #         it "should have the correct subject" do
-  #           expect(@response[:conversation][:body][:subject]).to eq(@mock["subject"])
-  #         end
-  #       end
-
-  #       context "the newly created message" do
-  #         it "should return 422" do
-  #           expect(@response[:message][:status]).to eq(422)
-  #         end
-
-  #         it "should have an error message" do
-  #           expect(@response[:message][:body]).to eq("An error occurred creating the conversation")
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
+  describe "update notification status" do
+  end
 end

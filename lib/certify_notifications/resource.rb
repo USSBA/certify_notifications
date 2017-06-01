@@ -45,7 +45,7 @@ module CertifyNotifications
       CertifyNotifications.configuration.path_prefix
     end
 
-    def self.conversations_path
+    def self.notifications_path
       CertifyNotifications.configuration.notifications_path
     end
 

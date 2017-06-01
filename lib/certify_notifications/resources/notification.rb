@@ -14,6 +14,15 @@ module CertifyNotifications
 
     # trigger a notification
     def self.create(params)
+      safe_params = notification_safe_params params
+      return return_response("Invalid parameters submitted", 422) if safe_params.empty? || params_except_ac(params).empty?
+      response = connection.request(method: :post,
+                                    path: build_create_notifications_path,
+                                    body: safe_params.to_json,
+                                    headers:  { "Content-Type" => "application/json" })
+      return_response(json(response.data[:body]), response.data[:status])
+    rescue Excon::Error::Socket => error
+      return_response(error.message, 503)
     end
 
     # update notification status
@@ -29,7 +38,7 @@ module CertifyNotifications
     end
 
     def self.build_find_notifications_path(params)
-      "#{path_prefix}/#{notifications_path}"
+      "#{path_prefix}/#{notifications_path}?#{URI.encode_www_form(params)}"
     end
 
     def self.build_create_notifications_path

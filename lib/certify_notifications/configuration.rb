@@ -1,7 +1,7 @@
 module CertifyNotifications
   # configuration module
   class Configuration
-    attr_accessor :api_url, :notify_api_version, :path_prefix, :notify_path
+    attr_accessor :api_url, :notify_api_version, :path_prefix, :notifications_path
 
     # main api endpoint
     def initialize
