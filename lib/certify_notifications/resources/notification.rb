@@ -2,6 +2,7 @@ module CertifyNotifications
   # notification class that handles getting and send new notifications
   class Notification < Resource
     # get list of notifications for a person
+    # rubocop:disable Metrics/AbcSize
     def self.find(params)
       safe_params = notification_safe_params params
       return return_response("Invalid parameters submitted", 400) if safe_params.empty? && !params_except_ac(params).empty?
@@ -26,8 +27,9 @@ module CertifyNotifications
     end
 
     # update notification status
-    def self.update(params)
-    end
+    # def self.update(params)
+
+    # end
 
     private_class_method
 
@@ -44,6 +46,5 @@ module CertifyNotifications
     def self.build_create_notifications_path
       "#{path_prefix}/#{notifications_path}"
     end
-
   end
 end

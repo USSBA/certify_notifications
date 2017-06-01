@@ -89,7 +89,6 @@ RSpec.describe CertifyNotifications::Notification do
     end
 
     context "handles errors" do
-
       context "empty parameters" do
         before do
           @notification = CertifyNotifications::Notification.create({})
@@ -139,6 +138,32 @@ RSpec.describe CertifyNotifications::Notification do
     end
   end
 
-  describe "update notification status" do
-  end
+  # describe "update notification status" do
+  #   context "create a new notification" do
+  #     before do
+  # rubocop:disable Metrics/LineLength
+  #       @mock = { id: "1", body: "Ru wyogg hnn-rowr roooarrgh roo ga wua ooma hnn-rowr?", link_url: "http://gislasonerdman.io/addie.rath", evt_type: "labmda", recipient_id: "5285887782", read: false }
+  #       Excon.stub({}, body: @mock.to_json, status: 201)
+  #       @notification = CertifyNotifications::Notification.create(@mock)
+  #       @body = @notification[:body]
+  #     end
+
+  #     it "should return the correct post response" do
+  #       expect(@notification[:status]).to eq(201)
+  #     end
+
+  #     it "should originally have a status of unread" do
+  #       expect(@body["read"]).to eq(false)
+  #     end
+  #     context "update that notification" do
+  #       before do
+  #         @mock = { id: "1", body: "Ru wyogg hnn-rowr roooarrgh roo ga wua ooma hnn-rowr?", link_url: "http://gislasonerdman.io/addie.rath", evt_type: "labmda", recipient_id: "5285887782", read: true }
+  #         Excon.stub({}, body: @mock.to_json, status: 201)
+  #         @notification = CertifyNotifications::Notification.create(@mock)
+  #         @body = @notification[:body]
+  #       end
+  #     end
+  #   end
+  # end
+
 end
