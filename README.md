@@ -44,7 +44,6 @@ end
 ### Notifications
 
 #### Finding (GET) Notifications
-* calling `CertifyNotifications::Notification.find({})` will query for all notifications, returning an array of hashes
 * calling `CertifyNotifications::Notification.find({recipient_id: 1})` will query for all notifications for recipient_id = 1
 * Calling the `.find` method with invalid parameters will result in an error:
   * `CertifyNotifications::Notification.find({foo: 'bar'})` returns: `Invalid parameters submitted`

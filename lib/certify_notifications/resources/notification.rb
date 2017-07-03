@@ -3,27 +3,29 @@ module CertifyNotifications
   class Notification < Resource
     # get list of notifications for a person
     # rubocop:disable Metrics/AbcSize
-    def self.find(params)
+    def self.find(params = nil)
+      return CertifyNotifications.bad_request if empty_params(params)
       safe_params = notification_safe_params params
-      return return_response("Invalid parameters submitted", 400) if safe_params.empty? && !params_except_ac(params).empty?
+      return CertifyNotifications.unprocessable if safe_params.empty?
       response = connection.request(method: :get,
                                     path: build_find_notifications_path(safe_params))
       return_response(json(response.data[:body]), response.data[:status])
     rescue Excon::Error::Socket => error
-      return_response(error.message, 503)
+      CertifyNotifications.service_unavailable error.class
     end
 
     # trigger a notification
-    def self.create(params)
+    def self.create(params = nil)
+      return CertifyNotifications.bad_request if empty_params(params)
       safe_params = notification_safe_params params
-      return return_response("Invalid parameters submitted", 422) if safe_params.empty? || params_except_ac(params).empty?
+      return CertifyNotifications.unprocessable if safe_params.empty?
       response = connection.request(method: :post,
                                     path: build_create_notifications_path,
                                     body: safe_params.to_json,
                                     headers:  { "Content-Type" => "application/json" })
       return_response(json(response.data[:body]), response.data[:status])
     rescue Excon::Error::Socket => error
-      return_response(error.message, 503)
+      CertifyNotifications.service_unavailable error.class
     end
 
     # update notification status

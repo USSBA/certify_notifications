@@ -54,9 +54,15 @@ module CertifyNotifications
       JSON.parse(response)
     end
 
-    # return params without ActionController default params
-    def self.params_except_ac(params)
-      params.except('controller', 'action')
+    # empty params
+    def self.empty_params(params)
+      if params.nil?
+        true
+      elsif params.empty?
+        true
+      else
+        false
+      end
     end
 
     def self.return_response(body, status)
