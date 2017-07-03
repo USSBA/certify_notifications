@@ -56,13 +56,7 @@ module CertifyNotifications
 
     # empty params
     def self.empty_params(params)
-      if params.nil?
-        true
-      elsif params.empty?
-        true
-      else
-        false
-      end
+      params.nil? || params.empty?
     end
 
     def self.return_response(body, status)

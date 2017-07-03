@@ -93,4 +93,4 @@ will return an unprocessable entity error:
 `    {body: "Service Unavailable: There was a problem connecting to the notifications API. Type: Excon::Error::Socket", status: 503}`
 
 ## Development
-Use `bundle console` to access a console environment for testing development of the gem.
+Use `rake console` to access the irb console.
