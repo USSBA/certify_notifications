@@ -10,7 +10,7 @@ task :console do
   require 'certify_notifications'
 
   def reload!
-    files = $LOADED_FEATURES.select { |feat| feat =~ /\/certify_notifications\// }
+    files = $LOADED_FEATURES.select { |feat| feat =~ %r{/certify_notifications/} }
     files.each { |file| load file }
   end
 
