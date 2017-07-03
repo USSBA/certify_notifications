@@ -93,4 +93,4 @@ will return an unprocessable entity error:
 `    {body: "Service Unavailable: There was a problem connecting to the notifications API. Type: Excon::Error::Socket", status: 503}`
 
 ## Development
-Use `rake console` to access the irb console.
+Use `rake console` to access the pry console.  While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
