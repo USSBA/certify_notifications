@@ -55,7 +55,7 @@ RSpec.describe "CertifyNotifications::Notifications.update" do
         CertifyNotifications::Resource.clear_connection
         Excon.defaults[:mock] = false
         # reextend the endpoint to a dummy url
-        @bad_notification = CertifyNotifications::Notification.update({body: "foo"})
+        @bad_notification = CertifyNotifications::Notification.update({read: true})
         @error = CertifyNotifications.service_unavailable 'Excon::Error::Socket'
       end
 

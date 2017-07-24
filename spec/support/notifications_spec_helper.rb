@@ -10,12 +10,12 @@ module NotificationSpecHelper
 
   def self.mock_notification
     { id: Faker::Number.number(10),
-      body: Faker::StarWars.wookie_sentence,
-      link_url: Faker::Internet.url,
-      evt_type: Faker::StarWars.quote,
       recipient_id: Faker::Number.number(10),
+      email: Faker::Internet.email,
+      event_type: %w[application_state_change application_assignment access_request new_message].sample,
+      subtype: %w['' submission accepted closed withdrawal].sample,
       read: Faker::Boolean.boolean,
-      created_date: Date.today,
-      updated_date: Date.today }
+      priority: false,
+      options: nil }
   end
 end
