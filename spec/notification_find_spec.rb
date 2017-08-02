@@ -20,9 +20,7 @@ RSpec.describe "CertifyNotifications::Notification.find" do
       end
 
       it "should contain valid notifications attributes" do
-        expect(@body[0]["body"]).to be
-        expect(@body[0]["evt_type"]).to be
-        expect(@body[0]["recipient_id"]).to be
+        expect(@body[0][:id]).to eq(@mock[0]["id"])
       end
     end
 

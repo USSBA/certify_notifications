@@ -48,17 +48,30 @@ end
 * Calling the `.find` method with empty or invalid parameters will result in an error (see below)
 
 #### Creating (POST) Notifications
-* to create a new notification:
+* to create a new notification, the following parameters are required:
 ```
   CertifyNotifications::Notification.create({
-    body: <text>,
-    link_url: <text>, Note: Links are limited to 1000 characters
-    evt_type: <string>,
-    recipient_id: <int>
-    read: <boolean>
+    event_type: <string>,
+    subtype: <string>
+    recipient_id: <int>,
+    email: <string>,
+    options: <hash>
   })
 ```
-  * This will return a JSON hash with a `body` containing the data of the notification along with `status` of 201.
+* and with optional parameters
+```
+  CertifyNotifications::Notification.create({
+    event_type: <string>,
+    subtype: <string>
+    recipient_id: <int>,
+    email: <string>,
+    options: <hash>,
+    certify_link: <string>,
+    priority: <boolean>
+  })
+```
+* refer to https://github.com/USSBA/notification-api/ for valid `event_type`, `subtype`, and `options` values
+* This will return a JSON hash with a `body` containing the data of the notification along with `status` of 201.
 * Calling the `.create` method with empty or invalid parameters will result in an error (see below)
 
 #### Updating (PUT) Notifications

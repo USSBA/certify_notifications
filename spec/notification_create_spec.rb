@@ -14,14 +14,8 @@ RSpec.describe "CertifyNotifications::Notification.create" do
       it "should return the correct post response" do
         expect(@notification[:status]).to eq(201)
       end
-
-      it "should return the new notification object" do
-        expect(@body["id"]).to eq(@mock[:id])
-        expect(@body["body"]).to eq(@mock[:body])
-        expect(@body["link_url"]).to eq(@mock[:link_url])
-        expect(@body["evt_type"]).to eq(@mock[:evt_type])
-        expect(@body["recipient_id"]).to eq(@mock[:recipient_id])
-        expect(@body["read"]).to eq(@mock[:read])
+      it "should return the correct notification object" do
+        expect(@body[:id]).to eq(@mock["id"])
       end
     end
 
