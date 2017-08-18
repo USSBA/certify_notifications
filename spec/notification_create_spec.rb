@@ -15,7 +15,10 @@ RSpec.describe "CertifyNotifications::Notification.create" do
         expect(@notification[:status]).to eq(201)
       end
       it "should return the correct notification object" do
-        expect(@body[:id]).to eq(@mock["id"])
+        expect(@body["id"]).to eq(@mock[:id])
+      end
+      it "should handle being given a string" do
+        expect(@body["recipient_id"]).to eq(@mock["recipient_id"])
       end
     end
 
