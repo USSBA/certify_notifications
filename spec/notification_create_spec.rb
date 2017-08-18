@@ -11,13 +11,13 @@ RSpec.describe "CertifyNotifications::Notification.create" do
         @body = @notification[:body]
       end
 
-      it "should return the correct post response" do
+      it "will return the correct post response" do
         expect(@notification[:status]).to eq(201)
       end
-      it "should return the correct notification object" do
+      it "will return the correct notification object" do
         expect(@body["id"]).to eq(@mock[:id])
       end
-      it "should handle being given a string" do
+      it "will handle being given a string" do
         expect(@body["recipient_id"]).to eq(@mock["recipient_id"])
       end
     end
@@ -27,11 +27,11 @@ RSpec.describe "CertifyNotifications::Notification.create" do
         before do
           @bad_notification = CertifyNotifications::Notification.create
         end
-        it 'should return a status code of 400' do
+        it 'will return a status code of 400' do
           expect(@bad_notification[:status]).to eq(CertifyNotifications.bad_request[:status])
         end
 
-        it 'should return an error message' do
+        it 'will return an error message' do
           expect(@bad_notification[:body]).to eq(CertifyNotifications.bad_request[:body])
         end
       end
@@ -40,11 +40,11 @@ RSpec.describe "CertifyNotifications::Notification.create" do
         before do
           @bad_notification = CertifyNotifications::Notification.create({foo: 'bar'})
         end
-        it 'should return a status code of 422' do
+        it 'will return a status code of 422' do
           expect(@bad_notification[:status]).to eq(CertifyNotifications.unprocessable[:status])
         end
 
-        it 'should return an error message' do
+        it 'will return an error message' do
           expect(@bad_notification[:body]).to eq(CertifyNotifications.unprocessable[:body])
         end
       end
@@ -63,11 +63,11 @@ RSpec.describe "CertifyNotifications::Notification.create" do
           CertifyNotifications::Resource.clear_connection
           Excon.defaults[:mock] = true
         end
-        it "should return a 503" do
+        it "will return a 503" do
           expect(@notification[:status]).to eq(@error[:status])
         end
 
-        it "should return an error message" do
+        it "will return an error message" do
           expect(@notification[:body]).to eq(@error[:body])
         end
       end

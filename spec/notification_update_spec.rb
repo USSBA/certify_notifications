@@ -1,7 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
 #rubocop:disable  Style/BracesAroundHashParameters, Metrics/BlockLength
-
 RSpec.describe "CertifyNotifications::Notifications.update" do
   describe 'Updating notifications' do
     context 'for editing notification read/unread status' do
@@ -15,7 +14,7 @@ RSpec.describe "CertifyNotifications::Notifications.update" do
                                                                                    })
       end
 
-      it "should return a notification" do
+      it "will return a notification" do
         expect(@updated_notification_response[:body]['read']).to be(true)
       end
     end
@@ -25,11 +24,11 @@ RSpec.describe "CertifyNotifications::Notifications.update" do
         @notifications = CertifyNotifications::Notification.update
       end
 
-      it "should return an error notification when a bad parameter is sent" do
+      it "will return an error notification when a bad parameter is sent" do
         expect(@notifications[:body]).to eq(CertifyNotifications.bad_request[:body])
       end
 
-      it "should return a 422 http status" do
+      it "will return a 422 http status" do
         expect(@notifications[:status]).to eq(CertifyNotifications.bad_request[:status])
       end
     end
@@ -39,11 +38,11 @@ RSpec.describe "CertifyNotifications::Notifications.update" do
         @notifications = CertifyNotifications::Notification.update(foo: 'bar')
       end
 
-      it "should return an error notification when a bad parameter is sent" do
+      it "will return an error notification when a bad parameter is sent" do
         expect(@notifications[:body]).to eq(CertifyNotifications.unprocessable[:body])
       end
 
-      it "should return a 422 http status" do
+      it "will return a 422 http status" do
         expect(@notifications[:status]).to eq(CertifyNotifications.unprocessable[:status])
       end
     end
@@ -64,10 +63,10 @@ RSpec.describe "CertifyNotifications::Notifications.update" do
         Excon.defaults[:mock] = true
       end
 
-      it "should return a 503" do
+      it "will return a 503" do
         expect(@bad_notification[:status]).to eq(@error[:status])
       end
-      it "should return an error notification" do
+      it "will return an error notification" do
         expect(@bad_notification[:body]).to eq(@error[:body])
       end
     end
