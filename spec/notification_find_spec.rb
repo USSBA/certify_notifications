@@ -4,7 +4,7 @@ require "spec_helper"
 RSpec.describe CertifyNotifications do
   describe "get notifications operations" do
     context "for getting notifications" do
-      let!(:mock) { NotificationSpecHelper.mock_notifications }
+      let(:mock) { NotificationSpecHelper.mock_notifications_sym }
       let(:notifications) { CertifyNotifications::Notification.find({recipient_id: 1}) }
       let(:body) { notifications[:body] }
 

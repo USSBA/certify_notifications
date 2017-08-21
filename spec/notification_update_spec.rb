@@ -4,7 +4,7 @@ require "spec_helper"
 RSpec.describe CertifyNotifications do
   describe 'Updating notifications' do
     context 'for editing notification read/unread status' do
-      let(:read_notification) { NotificationSpecHelper.mock_notification }
+      let(:read_notification) { NotificationSpecHelper.mock_notification_sym }
       let(:updated_notification_response) { CertifyNotifications::Notification.update(id: read_notification[:id], read: read_notification[:read]) }
 
       before do
