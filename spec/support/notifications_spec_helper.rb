@@ -18,4 +18,11 @@ module NotificationSpecHelper
       priority: false,
       options: nil }
   end
+
+  def self.mock_notification_preference
+    { id: Faker::Number.number(10),
+      user_id: Faker::Number.number(10),
+      subscribe_high_priority_emails: true,
+      subscribe_low_priority_emails: true }
+  end
 end
