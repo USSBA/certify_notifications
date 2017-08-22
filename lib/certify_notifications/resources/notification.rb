@@ -23,7 +23,7 @@ module CertifyNotifications
                                     path: build_create_notifications_path,
                                     body: safe_params.to_json,
                                     headers:  { "Content-Type" => "application/json" })
-      return_response(json(response.data[:body]), response.data[:status])
+      return_response(json(response.data[:body]), response.data[:status], response.data[:page], response.data[:per_page])
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
     end
@@ -37,7 +37,7 @@ module CertifyNotifications
                                     path: build_update_notification_path(safe_params),
                                     body: safe_params.to_json,
                                     headers:  { "Content-Type" => "application/json" })
-      return_response(check_empty_body(response.data[:body]), response.data[:status])
+      return_response(check_empty_body(response.data[:body]), response.data[:status], response.data[:page], response.data[:per_page])
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
     end
@@ -50,7 +50,7 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_safe_params(params)
-      permitted_keys = %w[id recipient_id email event_type subtype priority read options body email_subject certify_link]
+      permitted_keys = %w[id recipient_id email event_type subtype priority read options body email_subject certify_link page per_page]
       params.select { |key, _| permitted_keys.include? key.to_s }
     end
 

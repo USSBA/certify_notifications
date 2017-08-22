@@ -59,8 +59,8 @@ module CertifyNotifications
       params.nil? || params.empty?
     end
 
-    def self.return_response(body, status)
-      { body: body, status: status }
+    def self.return_response(body, status, page, per_page)
+      { body: body, status: status, page: page, per_page: per_page }
     end
   end
 end
