@@ -2,6 +2,16 @@
 
 This is a thin wrapper for the [Certify Notification API](https://github.com/SBA-ONE/notification-api) to handle basic GET and POST operations for notifications.
 
+
+#### Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Configuration](#configuration)
+    - [Notifications](#notifications)
+    - [Notification Preferences](#notification-preferences)
+- [Error Handling](#error-handling)
+- [Development](#development)
+
 ## Installation
 
 There are two options you can use to install the gem. Building it manually, or installing from GitHub.
@@ -85,8 +95,33 @@ end
   * This will return a status of 204.
 * Calling the `.update` method with empty or invalid parameters will result in an error (see below)
 
+### Notification Preferences
+
+#### Valid Parameters
+
+The only valid parameters for the notification preferences are as follows:
+* user_id (integer, required)
+* subscribe_low_priority_emails (boolean, optional)
+* subscribe_high_priority_emails (boolean, optional)
+
+#### Finding (GET) Notification Preferences
+* calling `CertifyNotifications::NotificationPreference.find({user_id: 1})` will query for the preferences for user_id = 1
+* Calling the `.find` method with empty or invalid parameters will result in an error (see below)
+* NOTE: if no preference object is found, one is created with default values and returned
+
+#### Updating (PUT) Notification Preferencess
+* to update a notification preference,for example to unsubscribe from low priority emails (i.e., digest emails):
+```
+  CertifyNotifications::NotificationPreference.update({
+    user_id: <int>,
+    subscribe_low_priority_emails: <boolean>
+  })
+```
+  * This will return a status of 204.
+* Calling the `.update` method with empty or invalid parameters will result in an error (see below)
+
 ## Error Handling
-* Calling a Gem method with no or empty parameters:
+* Calling a Gem method with no or empty parameters, e.g.:
 ```
 CertifyNotifictions::Notification.find        {}
 CertifyNotifictions::Notification.create      {}
