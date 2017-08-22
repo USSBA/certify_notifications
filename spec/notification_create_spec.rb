@@ -23,6 +23,26 @@ RSpec.describe CertifyNotifications do
           expect(body["recipient_id"]).to eq(mock[:recipient_id])
         end
       end
+      context "for creating notifications with soft validation" do
+        it "will create a set of valid notifications" do
+          pending("a set of valid notifications")
+          fail
+        end
+        it "will handle a set of invalid notifications" do
+          pending("a set of invalid notifications")
+          fail
+        end
+      end
+      context "for creating notifications with strict validation" do
+        it "will create a set of valid notifications" do
+          pending("a set of valid notifications")
+          fail
+        end
+        it "will handle a set of invalid notifications" do
+          pending("a set of invalid notifications")
+          fail
+        end
+      end
       context "with empty parameters" do
         let(:bad_notification) { CertifyNotifications::Notification.create }
 
