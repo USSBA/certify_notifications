@@ -42,6 +42,13 @@ module CertifyNotifications
       CertifyNotifications.service_unavailable error.class
     end
 
+    def self.update_page(page)
+      connection.request(method: :put, page: page)
+      page
+    rescue Excon::Error => error
+      CertifyNotifications.service_unavailable error.class
+    end
+
     private_class_method
 
     def self.check_empty_body(body)
