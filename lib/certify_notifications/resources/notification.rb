@@ -87,7 +87,7 @@ module CertifyNotifications
 
     def self.notification_create_request(safe_params)
       return CertifyNotifications.unprocessable if safe_params[:notifications].empty?
-      response = connection.request(method: :put,
+      response = connection.request(method: :post,
                                     path: build_create_notifications_path,
                                     body: safe_params.to_json,
                                     headers:  { "Content-Type" => "application/json" })
