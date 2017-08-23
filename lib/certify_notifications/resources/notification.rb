@@ -14,6 +14,10 @@ module CertifyNotifications
       CertifyNotifications.service_unavailable error.class
     end
 
+    def self.create(params = nil)
+      create_soft(params)
+    end
+
     # trigger a set of notifications wit soft validation
     def self.create_soft(params = nil)
       return CertifyNotifications.bad_request if empty_params(params)
