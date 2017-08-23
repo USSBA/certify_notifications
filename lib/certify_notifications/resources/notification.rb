@@ -50,8 +50,22 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_safe_params(params)
+      params = sanitize_params params
       permitted_keys = %w[id recipient_id email event_type subtype priority read options body email_subject certify_link]
       params.select { |key, _| permitted_keys.include? key.to_s }
+    end
+
+    def self.sanitize_params(params)
+      # rebuild params as symbols, dropping ones as strings
+      sanitized_params = {}
+      params.each do |key, value|
+        if key.is_a? String
+          sanitized_params[key.to_sym] = value
+        else
+          sanitized_params[key] = value
+        end
+      end
+      sanitized_params
     end
 
     def self.build_find_notifications_path(params)
