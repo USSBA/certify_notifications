@@ -1,49 +1,48 @@
 require 'spec_helper'
 
-#rubocop:disable  Style/BracesAroundHashParameters, Metrics/BlockLength, Layout/IndentHash
+#rubocop:disable  Style/BracesAroundHashParameters, Metrics/BlockLength, Layout/IndentHash, RSpec/DescribeClass
 RSpec.describe "CertifyNotifications::NotificationPreference.update" do
   describe 'Updating notification preferences' do
     context 'for editing notification preferences' do
       before do
+      end
+
+      let(:updated_preference_response) do
         pref = NotificationSpecHelper.mock_notification_preference
         pref[:subscribe_low_priority_email] = false
         Excon.stub({}, body: pref.to_json, status: 201)
-        @updated_preference_response = CertifyNotifications::NotificationPreference.update({
+        CertifyNotifications::NotificationPreference.update({
           user_id: pref[:user_id],
           subscribe_low_priority_email: pref[:subscribe_low_priority_email]
         })
       end
 
-      it "should return a notification" do
-        expect(@updated_preference_response[:body]['subscribe_low_priority_email']).to be(false)
+      it "returns a notification" do
+        expect(updated_preference_response[:body]['subscribe_low_priority_email']).to be(false)
       end
     end
 
     context "handles no parameters for updating notifications" do
-      before do
-        @preferences = CertifyNotifications::NotificationPreference.update
+      let(:preferences) { CertifyNotifications::NotificationPreference.update }
+
+      it "returns an error notification when a bad parameter is sent" do
+        expect(preferences[:body]).to eq(CertifyNotifications.bad_request[:body])
       end
 
-      it "should return an error notification when a bad parameter is sent" do
-        expect(@preferences[:body]).to eq(CertifyNotifications.bad_request[:body])
-      end
-
-      it "should return a 422 http status" do
-        expect(@preferences[:status]).to eq(CertifyNotifications.bad_request[:status])
+      it "returns a 422 http status" do
+        expect(preferences[:status]).to eq(CertifyNotifications.bad_request[:status])
       end
     end
 
     context "handles bad parameters for updating notifications" do
-      before do
-        @preferences = CertifyNotifications::NotificationPreference.update(foo: 'bar')
+      let(:preferences) { CertifyNotifications::NotificationPreference.update(foo: 'bar') }
+
+      it "returns an error notification when a bad parameter is sent" do
+        expect(preferences[:body]).to eq(CertifyNotifications.unprocessable[:body])
       end
 
-      it "should return an error notification when a bad parameter is sent" do
-        expect(@preferences[:body]).to eq(CertifyNotifications.unprocessable[:body])
-      end
-
-      it "should return a 422 http status" do
-        expect(@preferences[:status]).to eq(CertifyNotifications.unprocessable[:status])
+      it "returns a 422 http status" do
+        expect(preferences[:status]).to eq(CertifyNotifications.unprocessable[:status])
       end
     end
 
@@ -53,22 +52,22 @@ RSpec.describe "CertifyNotifications::NotificationPreference.update" do
       before do
         CertifyNotifications::Resource.clear_connection
         Excon.defaults[:mock] = false
-        # reextend the endpoint to a dummy url
-        @bad_preference = CertifyNotifications::NotificationPreference.update({user_id: 99, subscribe_low_priority_email: true})
-        @error = CertifyNotifications.service_unavailable 'Excon::Error::Socket'
       end
+
+      let(:bad_preference) { CertifyNotifications::NotificationPreference.update({user_id: 99, subscribe_low_priority_email: true}) }
+      let(:error) { CertifyNotifications.service_unavailable 'Excon::Error::Socket' }
 
       after do
         CertifyNotifications::Resource.clear_connection
         Excon.defaults[:mock] = true
       end
 
-      it "should return a 503" do
-        expect(@bad_preference[:status]).to eq(@error[:status])
+      it "returns a 503" do
+        expect(bad_preference[:status]).to eq(error[:status])
       end
 
-      it "should return an error notification" do
-        expect(@bad_preference[:body]).to eq(@error[:body])
+      it "returns an error notification" do
+        expect(bad_preference[:body]).to eq(error[:body])
       end
     end
   end
