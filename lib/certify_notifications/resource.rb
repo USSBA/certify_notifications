@@ -60,7 +60,7 @@ module CertifyNotifications
     end
 
     def self.return_response(body, status, page, per_page, total_notifications)
-      { body: body, status: status, page: page, per_page: per_page, total_notifications: total_notifications }
+      { body: body, status: status }
     end
   end
 end
