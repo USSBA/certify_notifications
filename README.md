@@ -4,13 +4,13 @@ This is a thin wrapper for the [Certify Notification API](https://github.com/SBA
 
 
 #### Table of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-    - [Configuration](#configuration)
-    - [Notifications](#notifications)
-    - [Notification Preferences](#notification-preferences)
-- [Error Handling](#error-handling)
-- [Development](#development)
+- [Installation](#user-content-installation)
+- [Usage](#user-content-usage)
+    - [Configuration](#user-content-configuration)
+    - [Notifications](#user-content-notifications)
+    - [Notification Preferences](#user-content-notification-preferences)
+- [Error Handling](#user-content-error-handling)
+- [Development](#user-content-development)
 
 ## Installation
 

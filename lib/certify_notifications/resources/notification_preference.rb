@@ -1,7 +1,7 @@
 module CertifyNotifications
   # notification preference class that handles getting and send new notification preferences
   class NotificationPreference < Resource
-    # get the preferences for a person
+    # get the notification preferences for a user
     # rubocop:disable Metrics/AbcSize
     def self.find(params = nil)
       return CertifyNotifications.bad_request if empty_params(params)
@@ -14,21 +14,7 @@ module CertifyNotifications
       CertifyNotifications.service_unavailable error.class
     end
 
-    # trigger a notification
-    def self.create(params = nil)
-      return CertifyNotifications.bad_request if empty_params(params)
-      safe_params = notification_preference_safe_params params
-      return CertifyNotifications.unprocessable if safe_params.empty?
-      response = connection.request(method: :post,
-                                    path: build_create_notification_preferences_path,
-                                    body: safe_params.to_json,
-                                    headers:  { "Content-Type" => "application/json" })
-      return_response(json(response.data[:body]), response.data[:status])
-    rescue Excon::Error => error
-      CertifyNotifications.service_unavailable error.class
-    end
-
-    # update notification status
+    # update notification preferences
     def self.update(params = nil)
       return CertifyNotifications.bad_request if empty_params(params)
       safe_params = notification_preference_safe_params params
@@ -60,10 +46,6 @@ module CertifyNotifications
 
     def self.build_create_notification_preferences_path
       "#{path_prefix}/#{notification_preferences_path}"
-    end
-
-    def self.build_update_notification_preference_path(params)
-      "#{path_prefix}/#{notification_preferences_path}/#{params[:user_id]}"
     end
   end
 end
