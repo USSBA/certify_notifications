@@ -9,7 +9,7 @@ module CertifyNotifications
       return CertifyNotifications.unprocessable if safe_params.empty?
       response = connection.request(method: :get,
                                     path: build_find_notifications_path(safe_params))
-      return_response(json(response.data[:body], response.data[:page], response.data[:per_page], response.data[:total_pages], response.data[:status]))
+      return_response(json(response.data[:body]), response.data[:page], response.data[:per_page], response.data[:total_pages], response.data[:status])
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
     end
@@ -23,7 +23,7 @@ module CertifyNotifications
                                     path: build_create_notifications_path,
                                     body: safe_params.to_json,
                                     headers:  { "Content-Type" => "application/json" })
-      return_response(json(response.data[:body], response.data[:page], response.data[:per_page], response.data[:total_pages], response.data[:status]))
+      return_response(json(response.data[:body]), response.data[:page], response.data[:per_page], response.data[:total_pages], response.data[:status])
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
     end
@@ -37,7 +37,7 @@ module CertifyNotifications
                                     path: build_update_notification_path(safe_params),
                                     body: safe_params.to_json,
                                     headers:  { "Content-Type" => "application/json" })
-      return_response(json(response.data[:body], response.data[:page], response.data[:per_page], response.data[:total_pages], response.data[:status]))
+      return_response(json(response.data[:body]), response.data[:page], response.data[:per_page], response.data[:total_pages], response.data[:status])
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
     end
