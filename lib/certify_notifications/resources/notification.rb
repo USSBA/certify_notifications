@@ -10,6 +10,7 @@ module CertifyNotifications
       response = connection.request(method: :get,
                                     path: build_find_notifications_path(safe_params))
       return_response(json(response.data[:body]), response.data[:page], response.data[:per_page], response.data[:total_pages], response.data[:status])
+      byebug
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
     end
