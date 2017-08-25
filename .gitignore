@@ -11,4 +11,5 @@
 # rspec failure tracking
 .rspec_status
 
+# debugging support
 .byebug_history

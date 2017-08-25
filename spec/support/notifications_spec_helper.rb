@@ -33,6 +33,13 @@ module NotificationSpecHelper
       options: nil }
   end
 
+  def self.mock_notification_preference
+    { id: Faker::Number.number(10),
+      user_id: Faker::Number.number(10),
+      subscribe_high_priority_emails: true,
+      subscribe_low_priority_emails: true }
+  end
+
   def self.mock_notification_string
     { "id" => Faker::Number.number(10),
       "recipient_id" => Faker::Number.number(10),

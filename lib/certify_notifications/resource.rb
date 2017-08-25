@@ -49,6 +49,10 @@ module CertifyNotifications
       CertifyNotifications.configuration.notifications_path
     end
 
+    def self.notification_preferences_path
+      CertifyNotifications.configuration.notification_preferences_path
+    end
+
     # json parse helper
     def self.json(response)
       JSON.parse(response)
