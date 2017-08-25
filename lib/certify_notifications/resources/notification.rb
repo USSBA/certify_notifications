@@ -18,14 +18,14 @@ module CertifyNotifications
       create_soft(params)
     end
 
-    # trigger a set of notifications wit soft validation
+    # trigger a set of notifications with soft validation
     def self.create_soft(params = nil)
       return CertifyNotifications.bad_request if empty_params(params)
       safe_params = notification_create_safe_param(false, params)
       notification_create_request safe_params
     end
 
-    #triger a set of notfication with strict validation
+    #trigger a set of notfication with strict validation
     def self.create_strict(params = nil)
       return CertifyNotifications.bad_request if empty_params(params)
       safe_params = notification_create_safe_param(true, params)
@@ -75,12 +75,8 @@ module CertifyNotifications
     def self.notification_create_safe_param(strict, params)
       safe_params = {strict: strict}
       safe_params[:notifications] = []
-      if params.is_a? Array
-        params.each do |notification_params|
-          safe_params[:notifications].push(notification_safe_params(notification_params)) unless notification_safe_params(notification_params).empty?
-        end
-      else
-        safe_params[:notifications].push(notification_safe_params(params)) unless notification_safe_params(params).empty?
+      [params].flatten(1).each do |notification_params|
+        safe_params[:notifications].push(notification_safe_params(notification_params)) unless notification_safe_params(notification_params).empty?
       end
       safe_params
     end
