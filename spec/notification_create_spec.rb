@@ -43,6 +43,7 @@ RSpec.describe CertifyNotifications do
         let(:first_notification) { NotificationSpecHelper.symbolize notify_mock }
         let(:second_notification) { NotificationSpecHelper.symbolize notify_mock }
         let(:invalid_notification) { NotificationSpecHelper.symbolize notify_mock }
+
         it "will create a set of valid notifications" do
           Excon.stub({}, status: 201)
           response = CertifyNotifications::Notification.create_strict([first_notification, second_notification])
