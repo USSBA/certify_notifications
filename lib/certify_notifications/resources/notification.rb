@@ -50,7 +50,7 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_safe_params(params)
-      permitted_keys = %w[id recipient_id application_id email event_type subtype priority read options body email_subject certify_link page per_page ]
+      permitted_keys = %w[id recipient_id application_id email event_type subtype priority read options body email_subject certify_link page per_page]
       params.select { |key, _| permitted_keys.include? key.to_s }
     end
 
