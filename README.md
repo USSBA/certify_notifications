@@ -64,6 +64,7 @@ end
     event_type: <string>,
     subtype: <string>
     recipient_id: <int>,
+    application_id <int>,
     email: <string>,
     options: <hash>
   })
@@ -74,6 +75,7 @@ end
     event_type: <string>,
     subtype: <string>
     recipient_id: <int>,
+    application_id <int>,
     email: <string>,
     options: <hash>,
     certify_link: <string>,
