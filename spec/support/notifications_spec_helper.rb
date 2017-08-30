@@ -25,6 +25,7 @@ module NotificationSpecHelper
   def self.mock_notification_sym
     { id: Faker::Number.number(10),
       recipient_id: Faker::Number.number(10),
+      application_id: Faker::Number.number(5),
       email: Faker::Internet.email,
       event_type: %w[application_state_change application_assignment access_request new_message].sample,
       subtype: %w['' submission accepted closed withdrawal].sample,
@@ -43,6 +44,7 @@ module NotificationSpecHelper
   def self.mock_notification_string
     { "id" => Faker::Number.number(10),
       "recipient_id" => Faker::Number.number(10),
+      "application_id" => Faker::Number.number(5),
       "email" => Faker::Internet.email,
       "event_type" => %w[application_state_change application_assignment access_request new_message].sample,
       "subtype" => %w['' submission accepted closed withdrawal].sample,
@@ -54,6 +56,7 @@ module NotificationSpecHelper
   def self.mock_notification_mixed
     { id: Faker::Number.number(10),
       recipient_id: Faker::Number.number(10),
+      "application_id" => Faker::Number.number(5),
       "email" => Faker::Internet.email,
       "event_type" => %w[application_state_change application_assignment access_request new_message].sample,
       subtype: %w['' submission accepted closed withdrawal].sample,
