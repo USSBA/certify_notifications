@@ -6,7 +6,7 @@ RSpec.describe CertifyNotifications do
     describe "create operations for #{type}" do
       context "for creating new notifications" do
         let(:mock) { NotificationSpecHelper.symbolize notify_mock }
-        let(:notification) { CertifyNotifications::Notification.create(mock) }
+        let(:notification) { CertifyNotifications::Notification.create_soft(mock) }
         let(:body) { notification[:body] }
 
         before do
@@ -23,8 +23,40 @@ RSpec.describe CertifyNotifications do
           expect(body["recipient_id"]).to eq(mock[:recipient_id])
         end
       end
+      context "for creating notifications with soft validation" do
+        let(:first_notification) { NotificationSpecHelper.symbolize notify_mock }
+        let(:second_notification) { NotificationSpecHelper.symbolize notify_mock }
+        let(:invalid_notification) { NotificationSpecHelper.symbolize notify_mock }
+
+        it "will create a set of valid notifications" do
+          Excon.stub({}, status: 201)
+          response = CertifyNotifications::Notification.create_soft([first_notification, second_notification])
+          expect(response[:status]).to match(201)
+        end
+        it "will handle a set of invalid notifications" do
+          Excon.stub({}, status: 207)
+          response = CertifyNotifications::Notification.create_soft([first_notification, invalid_notification])
+          expect(response[:status]).to match(207)
+        end
+      end
+      context "for creating notifications with strict validation" do
+        let(:first_notification) { NotificationSpecHelper.symbolize notify_mock }
+        let(:second_notification) { NotificationSpecHelper.symbolize notify_mock }
+        let(:invalid_notification) { NotificationSpecHelper.symbolize notify_mock }
+
+        it "will create a set of valid notifications" do
+          Excon.stub({}, status: 201)
+          response = CertifyNotifications::Notification.create_strict([first_notification, second_notification])
+          expect(response[:status]).to match(201)
+        end
+        it "will handle a set of invalid notifications" do
+          Excon.stub({}, status: 400)
+          response = CertifyNotifications::Notification.create_strict([first_notification, invalid_notification])
+          expect(response[:status]).to match(400)
+        end
+      end
       context "with empty parameters" do
-        let(:bad_notification) { CertifyNotifications::Notification.create }
+        let(:bad_notification) { CertifyNotifications::Notification.create_soft }
 
         it 'will return a status code of 400' do
           expect(bad_notification[:status]).to eq(described_class.bad_request[:status])
@@ -36,7 +68,7 @@ RSpec.describe CertifyNotifications do
       end
 
       context "with bad parameters" do
-        let(:bad_notification) { CertifyNotifications::Notification.create({foo: 'bar'}) }
+        let(:bad_notification) { CertifyNotifications::Notification.create_soft({foo: 'bar'}) }
 
         it 'will return a status code of 422' do
           expect(bad_notification[:status]).to eq(described_class.unprocessable[:status])
@@ -50,7 +82,7 @@ RSpec.describe CertifyNotifications do
       # this will work if the API is disconnected, but I can't figure out how to
       # fake the Excon connection to force it to fail in a test env.
       context "with api not found" do
-        let(:notification) { CertifyNotifications::Notification.create({id: 1}) }
+        let(:notification) { CertifyNotifications::Notification.create_soft({id: 1}) }
         let(:error) { described_class.service_unavailable 'Excon::Error::Socket' }
 
         before do
