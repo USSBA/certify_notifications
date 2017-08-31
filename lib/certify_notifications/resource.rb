@@ -70,5 +70,18 @@ module CertifyNotifications
     def self.return_response(body, status)
       { body: body, status: status }
     end
+
+    def self.symbolize_params(p)
+      # rebuild params as symbols, dropping ones as strings
+      symbolized_params = {}
+      p.each do |key, value|
+        if key.is_a? String
+          symbolized_params[key.to_sym] = value
+        else
+          symbolized_params[key] = value
+        end
+      end
+      symbolized_params
+    end
   end
 end

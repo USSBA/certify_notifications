@@ -17,19 +17,6 @@ module CertifyNotifications
       CertifyNotifications.service_unavailable error.class
     end
 
-    def self.activity_log(params = nil)
-      return CertifyNotifications.bad_request if empty_params(params)
-      safe_params = notification_safe_params params
-      return CertifyNotifications.unprocessable if safe_params.empty?
-      return CertifyNotifications.unprocessable if safe_params[:application_id].nil?
-      response = connection.request(method: :get,
-                                    path: build_activity_log_path(safe_params))
-      puts response
-      return_response(json(response.data[:body]), response.data[:status])
-    rescue Excon::Error => error
-      CertifyNotifications.service_unavailable error.class
-    end
-
     def self.create(params = nil)
       create_soft(params)
     end
@@ -71,22 +58,8 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_safe_params(p)
-      safe_params = symbolize_params p
       permitted_keys = %w[id recipient_id application_id email event_type subtype priority read options body email_subject certify_link page per_page]
-      safe_params.select { |key, _| permitted_keys.include? key.to_s }
-    end
-
-    def self.symbolize_params(p)
-      # rebuild params as symbols, dropping ones as strings
-      symbolized_params = {}
-      p.each do |key, value|
-        if key.is_a? String
-          symbolized_params[key.to_sym] = value
-        else
-          symbolized_params[key] = value
-        end
-      end
-      symbolized_params
+      symbolize_params(p.select { |key, _| permitted_keys.include? key.to_s })
     end
 
     def self.notification_create_safe_param(strict, p)
@@ -119,10 +92,6 @@ module CertifyNotifications
 
     def self.build_update_notification_path(params)
       "#{path_prefix}/#{notifications_path}/#{params[:id]}"
-    end
-
-    def self.build_activity_log_path(params)
-      "#{path_prefix}/#{activity_log_path}?application_id=#{params[:application_id]}"
     end
   end
 end
