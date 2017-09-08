@@ -4,16 +4,7 @@ AllCops:
       - 'db/schema.rb'
       - 'bin/*'
 
-Style/Encoding:
-  Enabled: false
-
-Style/StringLiterals:
-  Enabled: false
-
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Style/BlockComments:
+Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
 Layout/LeadingCommentSpace:
@@ -25,12 +16,27 @@ Layout/SpaceInsideBrackets:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
-Layout/EmptyLinesAroundBlockBody:
-  Enabled: false
-
 Metrics/LineLength:
   Max: 199
 
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/HookArgument:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Style/Encoding:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Style/NumericLiterals:
+  Enabled: false
+
+Style/StringLiterals:
   Enabled: false
 

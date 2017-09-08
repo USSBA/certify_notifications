@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.email         = [""]
 
   spec.summary       = "Ruby Gem to wrap the Certify Notification API"
-  spec.description   = "Ruby Gem to wrap the Certify Notification API"
+  spec.description   = "Ruby Gem to wrap the Certify Notification API (GIT_DESCRIBE)"
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
