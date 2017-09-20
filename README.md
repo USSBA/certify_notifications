@@ -84,6 +84,29 @@ end
     priority: <boolean>
   })
 ```
+* multiple notifications can be created in a single call by passing in an array of notifications
+```
+  CertifyNotifications::Notification.create([{
+    recipient_id: <int>,
+    application_id: <int>,
+    email: <string>,
+    event_type: <string>,
+    subtype: <string>,
+    certify_link: <string>,
+    priority: <boolean>,
+    options: <hash>
+  }])
+```
+* notifications will be validated based on either soft or strict terms. Soft validation is the default and will save each notification in the array to the database individually and any notifications that cannot be saved return an error. With strict validation, if any one of the notifications posted to the is malformed or unable to be posted to the database, then none of the notifications will be saved to the database.
+
+```
+  CertifyNotifications::Notification.create_soft([{notification1}, {notification2}]
+```
+
+```
+  CertifyNotifications::Notification.create_strict([{notification1}, {notification2}]
+```
+
 * refer to https://github.com/USSBA/notification-api/ for valid `event_type`, `subtype`, and `options` values
 * This will return a JSON hash with a `body` containing the data of the notification along with `status` of 201.
 * Calling the `.create` method with empty or invalid parameters will result in an error (see below)
