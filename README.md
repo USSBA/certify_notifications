@@ -86,16 +86,7 @@ end
 ```
 * multiple notifications can be created in a single call by passing in an array of notifications
 ```
-  CertifyNotifications::Notification.create([{
-    recipient_id: <int>,
-    application_id: <int>,
-    email: <string>,
-    event_type: <string>,
-    subtype: <string>,
-    certify_link: <string>,
-    priority: <boolean>,
-    options: <hash>
-  }])
+  CertifyNotifications::Notification.create([{notification1}, {notification2}])
 ```
 * notifications will be validated based on either soft or strict terms. Soft validation is the default and will save each notification in the array to the database individually and any notifications that cannot be saved return an error. With strict validation, if any one of the notifications posted to the is malformed or unable to be posted to the database, then none of the notifications will be saved to the database.
 
