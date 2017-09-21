@@ -4,7 +4,6 @@ require "certify_notifications/resource"
 require "certify_notifications/version"
 require "certify_notifications/resources/notification"
 require "certify_notifications/resources/notification_preference"
-require "certify_notifications/resources/activity_log"
 
 # the base CertifyNotifications module that wraps all notifications acalls
 module CertifyNotifications
