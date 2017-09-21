@@ -123,6 +123,9 @@ The only valid parameters for the notification preferences are as follows:
   * This will return a status of 204.
 * Calling the `.update` method with empty or invalid parameters will result in an error (see below)
 
+### Activity Log
+The functionality for the activity log has been moved to the Activity Log Gem and API
+
 ## Error Handling
 * Calling a Gem method with no or empty parameters, e.g.:
 ```
@@ -145,7 +148,7 @@ will return an unprocessable entity error:
 
 ## Pagination
 
-All lists of notifications or activity logs are paginated by default.  To change the number of items per page, or go to a specific page, include the following optional parameters:
+All lists of notifications are paginated by default.  To change the number of items per page, or go to a specific page, include the following optional parameters:
 - `page`: the page requested
 - `per_page`: the number of items to be included on a page
 
