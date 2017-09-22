@@ -53,10 +53,6 @@ module CertifyNotifications
       CertifyNotifications.configuration.notification_preferences_path
     end
 
-    def self.activity_log_path
-      CertifyNotifications.configuration.activity_log_path
-    end
-
     # json parse helper
     def self.json(response)
       JSON.parse(response)

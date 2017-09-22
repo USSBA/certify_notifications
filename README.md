@@ -9,7 +9,6 @@ This is a thin wrapper for the [Certify Notification API](https://github.com/SBA
     - [Configuration](#user-content-configuration)
     - [Notifications](#user-content-notifications)
     - [Notification Preferences](#user-content-notification-preferences)
-    - [Activity Log](#user-content-activity-log)
 - [Error Handling](#user-content-error-handling)
 - [Pagination](#user-content-pagination)
 - [Development](#user-content-development)
@@ -125,12 +124,7 @@ The only valid parameters for the notification preferences are as follows:
 * Calling the `.update` method with empty or invalid parameters will result in an error (see below)
 
 ### Activity Log
-
-The activity log is under development, but is considered to be a close match to the notifications, thus is currently lives in the same gem.  This may change in the future.
-
-#### Finding (GET) Activity Log
-* calling `CertifyNotifications::ActivityLog.where({application_id: 1})` will return all activity log entries for the application with id = 1
-* Calling the `.where` method with empty or invalid parameters will result in an error (see below)
+The functionality for the activity log has been moved to the Activity Log Gem and API
 
 ## Error Handling
 * Calling a Gem method with no or empty parameters, e.g.:
@@ -138,7 +132,6 @@ The activity log is under development, but is considered to be a close match to 
 CertifyNotifictions::Notification.find   {}
 CertifyNotifictions::Notification.create {}
 CertifyNotifictions::Notification.update {}
-CertifyNotifictions::ActivityLog.where   {}
 ```
 will return a bad request:
 `{body: "Bad Request: No parameters submitted", status: 400}`
@@ -147,7 +140,6 @@ will return a bad request:
 CertifyNotifictions::Notification.find   {foo: 'bar'}
 CertifyNotifictions::Notification.create {foo: 'bar'}
 CertifyNotifictions::Notification.update {foo: 'bar'}
-CertifyNotifictions::ActivityLog.where   {foo: 'bar'}
 ```
 will return an unprocessable entity error:
 `{body: "Unprocessable Entity: Invalid parameters submitted", status: 422}`
@@ -156,7 +148,7 @@ will return an unprocessable entity error:
 
 ## Pagination
 
-All lists of notifications or activity logs are paginated by default.  To change the number of items per page, or go to a specific page, include the following optional parameters:
+All lists of notifications are paginated by default.  To change the number of items per page, or go to a specific page, include the following optional parameters:
 - `page`: the page requested
 - `per_page`: the number of items to be included on a page
 
