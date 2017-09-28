@@ -7,7 +7,7 @@ require 'certify_notifications/version'
 # rubocop:disable BlockLength
 Gem::Specification.new do |spec|
   spec.name          = "certify_notifications"
-  spec.version       = CertifyNotifications::VERSION
+  spec.version       = CertifyNotifications::VERSION::STRING
   spec.authors       = ["Fearless"]
   spec.email         = [""]
 
