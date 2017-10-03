@@ -56,8 +56,8 @@ end
 ### Notifications
 
 #### Finding (GET) Notifications
-* calling `CertifyNotifications::Notification.find({recipient_id: 1})` will query for all notifications for recipient_id = 1
-* Calling the `.find` method with empty or invalid parameters will result in an error (see below)
+* calling `CertifyNotifications::Notification.where({recipient_id: 1})` will query for all notifications for recipient_id = 1
+* Calling the `.where` method with empty or invalid parameters will result in an error (see below)
 
 #### Creating (POST) Notifications
 * to create a new notification, the following parameters are required:
@@ -109,8 +109,8 @@ The only valid parameters for the notification preferences are as follows:
 * subscribe_high_priority_emails (boolean, optional)
 
 #### Finding (GET) Notification Preferences
-* calling `CertifyNotifications::NotificationPreference.find({user_id: 1})` will query for the preferences for user_id = 1
-* Calling the `.find` method with empty or invalid parameters will result in an error (see below)
+* calling `CertifyNotifications::NotificationPreference.where({user_id: 1})` will query for the preferences for user_id = 1
+* Calling the `.where` method with empty or invalid parameters will result in an error (see below)
 * NOTE: if no preference object is found, one is created with default values and returned
 
 #### Updating (PUT) Notification Preferencess
@@ -130,7 +130,7 @@ The functionality for the activity log has been moved to the Activity Log Gem an
 ## Error Handling
 * Calling a Gem method with no or empty parameters, e.g.:
 ```
-CertifyNotifictions::Notification.find   {}
+CertifyNotifictions::Notification.where   {}
 CertifyNotifictions::Notification.create {}
 CertifyNotifictions::Notification.update {}
 ```
@@ -138,7 +138,7 @@ will return a bad request:
 `{body: "Bad Request: No parameters submitted", status: 400}`
 * Calling a Gem method with invalid parameters:
 ```
-CertifyNotifictions::Notification.find   {foo: 'bar'}
+CertifyNotifictions::Notification.where   {foo: 'bar'}
 CertifyNotifictions::Notification.create {foo: 'bar'}
 CertifyNotifictions::Notification.update {foo: 'bar'}
 ```

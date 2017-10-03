@@ -6,7 +6,7 @@ module CertifyNotifications
 
     # get list of notifications for a person
     # rubocop:disable Metrics/AbcSize
-    def self.find(params = nil)
+    def self.where(params = nil)
       return CertifyNotifications.bad_request if empty_params(params)
       safe_params = notification_safe_params params
       return CertifyNotifications.unprocessable if safe_params.empty?
@@ -16,6 +16,7 @@ module CertifyNotifications
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
     end
+    singleton_class.send(:alias_method, :find, :where)
 
     def self.create(params = nil)
       create_soft(params)
