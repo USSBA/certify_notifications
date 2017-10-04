@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+  - HUB 859
+    - Updated gems and did fixed concerns from rubocop 
+
 ## [1.0.2] - 2017-09-28
 ### shared-services-sprint-26
 ### Added
