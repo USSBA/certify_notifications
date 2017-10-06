@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ## [X.X.X] - 2017-10-12
+### shared-services-sprint-27
 ### Changed
 - HUB-868: Added '.where' method to notifications call and add alias for '.find'
 
