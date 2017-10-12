@@ -5,7 +5,8 @@ require "certify_notifications/version"
 require "certify_notifications/resources/notification"
 require "certify_notifications/resources/notification_preference"
 
-# the base CertifyNotifications module that wraps all notifications acalls
+# the base CertifyNotifications module that wraps all notifications calls
+# rubocop:disable Lint/DuplicateMethods
 module CertifyNotifications
   class << self
     attr_accessor :configuration

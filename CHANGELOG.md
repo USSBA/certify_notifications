@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.3] - 2017-10-12
+### shared-services-sprint-27
+### Changed
+  - HUB-868: Renamed method `find` to `where` for notifications call and add back an alias for `find`
+
+  - HUB 859
+    - Updated nokogiri and other dependencies
+
+
 ## [1.0.2] - 2017-09-28
 ### shared-services-sprint-26
 ### Added
