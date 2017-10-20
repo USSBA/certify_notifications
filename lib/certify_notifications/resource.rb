@@ -70,24 +70,29 @@ module CertifyNotifications
     end
 
     # if there is a valid logger, then try to send the error to it
-    def self.write_log(log_level, error)
+    def self.write_log(log_level, message)
       return nil if logger.nil?
       case log_level
       when 'debug'
-        logger.debug(error)
+        logger.debug(message)
       when 'info'
-        logger.info(error)
+        logger.info(message)
       when 'warn'
-        logger.warn(error)
+        logger.warn(message)
       when 'error'
-        logger.error(error)
+        logger.error(message)
       when 'fatal'
-        logger.fatal(error)
+        logger.fatal(message)
       when 'unknowon'
-        logger.unknown(error)
+        logger.unknown(message)
       else
         raise ArgumentError, "invalid log level: #{log_level}"
       end
+    end
+
+    def self.handle_excon_error(error)
+      write_log('error', [error.message, error.backtrace.join("\n")].join("\n"))
+      CertifyNotifications.service_unavailable error.message
     end
 
     # json parse helper
