@@ -4,8 +4,12 @@ require 'excon'
 module CertifyNotifications
   # Controls the API connection
   class ApiConnection
-    def initialize(url)
-      @conn = Excon.new(url)
+    attr_accessor :conn
+    def initialize(url, timeout)
+      @conn = Excon.new(url,
+                        connect_timeout: timeout,
+                        read_timeout: timeout,
+                        write_timeout: timeout)
     end
 
     def request(options)
@@ -30,11 +34,15 @@ module CertifyNotifications
 
     # excon connection
     def self.connection
-      @@connection ||= ApiConnection.new api_url
+      @@connection ||= ApiConnection.new api_url, excon_timeout
     end
 
     def self.clear_connection
       @@connection = nil
+    end
+
+    def self.excon_timeout
+      CertifyNotifications.configuration.excon_timeout
     end
 
     def self.api_url

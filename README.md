@@ -50,8 +50,10 @@ Set the notifications API URL in your apps `config/initializers` folder, you pro
 CertifyNotifications.configure do |config|
   config.api_url = "http://localhost:3004"
   config.notify_api_version = 1
+  config.excon_timeout = 5
 end
 ```
+With [v1.1.0](CHANGELOG.md#110---2017-10-28), the default Excon API connection timeout was lowered to `20 seconds`. The gem user can also provide a timeout value in seconds as shown above in the `configure` block.  This value is used for the Excon parameters `connect_timeout`, `read_timeout`, and `write_timeout`.
 
 ### Notifications
 
@@ -124,13 +126,10 @@ The only valid parameters for the notification preferences are as follows:
   * This will return a status of 204.
 * Calling the `.update` method with empty or invalid parameters will result in an error (see below)
 
-### Activity Log
-The functionality for the activity log has been moved to the Activity Log Gem and API
-
 ## Error Handling
 * Calling a Gem method with no or empty parameters, e.g.:
 ```
-CertifyNotifictions::Notification.where   {}
+CertifyNotifictions::Notification.where  {}
 CertifyNotifictions::Notification.create {}
 CertifyNotifictions::Notification.update {}
 ```
@@ -138,7 +137,7 @@ will return a bad request:
 `{body: "Bad Request: No parameters submitted", status: 400}`
 * Calling a Gem method with invalid parameters:
 ```
-CertifyNotifictions::Notification.where   {foo: 'bar'}
+CertifyNotifictions::Notification.where  {foo: 'bar'}
 CertifyNotifictions::Notification.create {foo: 'bar'}
 CertifyNotifictions::Notification.update {foo: 'bar'}
 ```
@@ -159,7 +158,11 @@ Responses will include pagination information, including the following:
 - `total_entries`: the total number of items that match the current search
 
 ## Development
-Use `rake console` to access the pry console.  While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
+Use `rake console` to access the pry console and add the messages API URL to the gem's config to be able to correctly test commands:
+```
+  CertifyNotifications.configuration.api_url = 'http://localhost:3004'
+```
+While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
 
 ## Changelog
 Refer to the changelog for details on API updates. [CHANGELOG](CHANGELOG.md)
