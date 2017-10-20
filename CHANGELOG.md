@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
   - HUB-918:
     - Added custom configuration of `excon_timeout` and makes it available to be configured by gem user.
     - Sets Excon connection values for `connect_timeout`, `read_timeout` and `write_timeout` to equal value of `excon_timeout`
+    - Added logger functionality to the gem, refer to README for more details about configuration.
 
 ## [1.0.3] - 2017-10-12
 ### shared-services-sprint-27

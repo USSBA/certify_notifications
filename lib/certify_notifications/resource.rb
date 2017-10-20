@@ -65,22 +65,28 @@ module CertifyNotifications
       CertifyNotifications.configuration.logger
     end
 
-    # if there is a valid logger, then try to send the message to it
-    def self.write_log(type, message)
-      return if logger.nil?
-      case type
+    def self.log_level
+      CertifyNotifications.configuration.log_level
+    end
+
+    # if there is a valid logger, then try to send the error to it
+    def self.write_log(log_level, error)
+      return nil if logger.nil?
+      case log_level
       when 'debug'
-        logger.debug(message)  if logger.respond_to? debug
+        logger.debug(error)
       when 'info'
-        logger.info(message)   if logger.respond_to? info
+        logger.info(error)
       when 'warn'
-        logger.warn(message)   if logger.respond_to? warn
+        logger.warn(error)
       when 'error'
-        logger.error(message)  if logger.respond_to? error
+        logger.error(error)
       when 'fatal'
-        logger.fatal(message)  if logger.respond_to? fatal
+        logger.fatal(error)
+      when 'unknowon'
+        logger.unknown(error)
       else
-        return nil
+        raise ArgumentError, "invalid log level: #{log_level}"
       end
     end
 

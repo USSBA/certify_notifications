@@ -10,6 +10,7 @@ This is a thin wrapper for the [Certify Notification API](https://github.com/SBA
     - [Notifications](#user-content-notifications)
     - [Notification Preferences](#user-content-notification-preferences)
 - [Error Handling](#user-content-error-handling)
+- [Logging](#logging)
 - [Pagination](#user-content-pagination)
 - [Development](#user-content-development)
 - [Changelog](#changelog)
@@ -146,6 +147,16 @@ will return an unprocessable entity error:
 * Any other errors that the Gem experiences when connecting to the API will return a service error and the Excon error class:
 `    {body: "Service Unavailable: There was a problem connecting to the notifications API. Type: Excon::Error::Socket", status: 503}`
 
+## Logging
+Along with returning status error messages for API connection issues, the gem will also log connection errors.  The default behavior for this is to use the built in Ruby `Logger` and honor standard log level protocols.  The default log level is set to `debug` and will output to `STDOUT`.  This can also be configured by the gem user to use the gem consumer application's logger, including the app's environment specific log level.
+```
+# example implementation for a Rails app
+CertifyNotifications.configure do |config|
+  config.logger = Rails.logger
+  config.log_level = Rails.configuration.log_level
+end
+```
+
 ## Pagination
 
 All lists of notifications are paginated by default.  To change the number of items per page, or go to a specific page, include the following optional parameters:
@@ -163,6 +174,8 @@ Use `rake console` to access the pry console and add the messages API URL to the
   CertifyNotifications.configuration.api_url = 'http://localhost:3004'
 ```
 While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
+Pry is included for simple debugging and can be called in
+
 
 ## Changelog
 Refer to the changelog for details on API updates. [CHANGELOG](CHANGELOG.md)
