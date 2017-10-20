@@ -62,7 +62,7 @@ module CertifyNotifications
     end
 
     def self.logger
-      CertifyNotifications.configuration.logger
+      CertifyNotifications.configuration.logger ||= (DefaultLogger.new log_level).logger
     end
 
     def self.log_level

@@ -12,7 +12,7 @@ module CertifyNotifications
       @notifications_path = "notifications"
       @notification_preferences_path = "notification_preferences"
       @log_level = "debug"
-      @logger = (DefaultLogger.new @log_level).logger
+      @logger = nil
     end
   end
 end
