@@ -11,6 +11,7 @@ module CertifyNotifications
       @path_prefix = "/notify"
       @notifications_path = "notifications"
       @notification_preferences_path = "notification_preferences"
+      @logger = nil
     end
   end
 end

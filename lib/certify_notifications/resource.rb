@@ -61,6 +61,29 @@ module CertifyNotifications
       CertifyNotifications.configuration.notification_preferences_path
     end
 
+    def self.logger
+      CertifyNotifications.configuration.logger
+    end
+
+    # if there is a valid logger, then try to send the message to it
+    def self.write_log(type, message)
+      return if logger.nil?
+      case type
+      when 'debug'
+        logger.debug(message)  if logger.respond_to? debug
+      when 'info'
+        logger.info(message)   if logger.respond_to? info
+      when 'warn'
+        logger.warn(message)   if logger.respond_to? warn
+      when 'error'
+        logger.error(message)  if logger.respond_to? error
+      when 'fatal'
+        logger.fatal(message)  if logger.respond_to? fatal
+      else
+        return nil
+      end
+    end
+
     # json parse helper
     def self.json(response)
       JSON.parse(response)
