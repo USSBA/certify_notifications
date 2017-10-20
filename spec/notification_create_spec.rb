@@ -83,7 +83,8 @@ RSpec.describe CertifyNotifications do
       # fake the Excon connection to force it to fail in a test env.
       context "with api not found" do
         let(:notification) { CertifyNotifications::Notification.create_soft({id: 1}) }
-        let(:error) { described_class.service_unavailable 'Excon::Error::Socket' }
+        let(:error_type) { "SocketError" }
+        let(:error) { described_class.service_unavailable error_type}
 
         before do
           CertifyNotifications::Resource.clear_connection
@@ -99,7 +100,7 @@ RSpec.describe CertifyNotifications do
         end
 
         it "will return an error message" do
-          expect(notification[:body]).to eq(error[:body])
+          expect(notification[:body]).to match(/#{error_type}/)
         end
       end
     end
