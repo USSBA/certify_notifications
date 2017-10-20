@@ -12,6 +12,7 @@ module CertifyNotifications
       return_response(json(response.data[:body]), response.data[:status])
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
+      Rails.logger.error(error.class)
     end
     singleton_class.send(:alias_method, :find, :where)
 
@@ -27,6 +28,7 @@ module CertifyNotifications
       return_response(check_empty_body(response.data[:body]), response.data[:status])
     rescue Excon::Error => error
       CertifyNotifications.service_unavailable error.class
+      Rails.logger.error(error.class)
     end
 
     private_class_method
