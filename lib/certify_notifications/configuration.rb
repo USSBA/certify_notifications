@@ -5,7 +5,7 @@ module CertifyNotifications
 
     # main api endpoint
     def initialize
-      @excon_timeout = 1
+      @excon_timeout = 20
       @api_url = "http://localhost:3004"
       @notify_api_version = 1
       @path_prefix = "/notify"
