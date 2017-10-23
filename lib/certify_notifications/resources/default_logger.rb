@@ -16,26 +16,17 @@ module CertifyNotifications
     # convert log level text to integer, using Ruby Logger levels in order of severity
     # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
     def parse_log_level(log_level)
-      if log_level.is_a?(Integer)
-        return log_level
+      if log_level.is_a?(Integer) && log_level.between?(0, 5)
+        log_level
       else
-        case log_level.to_s.downcase
-        when 'debug'
-          return 0
-        when 'info'
-          return 1
-        when 'warn'
-          return 2
-        when 'error'
-          return 3
-        when 'fatal'
-          return 4
-        when 'unknown'
-          return 5
-        else
-          raise ArgumentError, "invalid log level: #{log_level}"
-        end
+        level = severity.index(log_level.to_s.downcase)
+        raise ArgumentError, "invalid log level: #{log_level}" unless level
+        level
       end
+    end
+
+    def severity
+      %w[debug info warn error fatal unknown]
     end
   end
 end

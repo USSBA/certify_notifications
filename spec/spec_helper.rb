@@ -9,6 +9,7 @@ Dir['./spec/support/**/*.rb'].each { |f| require f }
 CertifyNotifications.configure do |config|
   config.api_url = "http://foo.bar/"
   config.excon_timeout = 6
+  config.log_level = "unknown"
 end
 
 RSpec.configure do |config|

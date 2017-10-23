@@ -84,7 +84,7 @@ RSpec.describe CertifyNotifications do
       context "with api not found" do
         let(:notification) { CertifyNotifications::Notification.create_soft({id: 1}) }
         let(:error_type) { "SocketError" }
-        let(:error) { described_class.service_unavailable error_type}
+        let(:error) { described_class.service_unavailable error_type }
 
         before do
           CertifyNotifications::Resource.clear_connection
