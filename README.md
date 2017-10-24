@@ -10,6 +10,7 @@ This is a thin wrapper for the [Certify Notification API](https://github.com/SBA
     - [Notifications](#user-content-notifications)
     - [Notification Preferences](#user-content-notification-preferences)
 - [Error Handling](#user-content-error-handling)
+- [Logging](#logging)
 - [Pagination](#user-content-pagination)
 - [Development](#user-content-development)
 - [Changelog](#changelog)
@@ -50,8 +51,10 @@ Set the notifications API URL in your apps `config/initializers` folder, you pro
 CertifyNotifications.configure do |config|
   config.api_url = "http://localhost:3004"
   config.notify_api_version = 1
+  config.excon_timeout = 5
 end
 ```
+With [v1.1.0](CHANGELOG.md#110---2017-10-28), the default Excon API connection timeout was lowered to `20 seconds`. The gem user can also provide a timeout value in seconds as shown above in the `configure` block.  This value is used for the Excon parameters `connect_timeout`, `read_timeout`, and `write_timeout`.
 
 ### Notifications
 
@@ -124,13 +127,10 @@ The only valid parameters for the notification preferences are as follows:
   * This will return a status of 204.
 * Calling the `.update` method with empty or invalid parameters will result in an error (see below)
 
-### Activity Log
-The functionality for the activity log has been moved to the Activity Log Gem and API
-
 ## Error Handling
 * Calling a Gem method with no or empty parameters, e.g.:
 ```
-CertifyNotifictions::Notification.where   {}
+CertifyNotifictions::Notification.where  {}
 CertifyNotifictions::Notification.create {}
 CertifyNotifictions::Notification.update {}
 ```
@@ -138,7 +138,7 @@ will return a bad request:
 `{body: "Bad Request: No parameters submitted", status: 400}`
 * Calling a Gem method with invalid parameters:
 ```
-CertifyNotifictions::Notification.where   {foo: 'bar'}
+CertifyNotifictions::Notification.where  {foo: 'bar'}
 CertifyNotifictions::Notification.create {foo: 'bar'}
 CertifyNotifictions::Notification.update {foo: 'bar'}
 ```
@@ -146,6 +146,16 @@ will return an unprocessable entity error:
 `{body: "Unprocessable Entity: Invalid parameters submitted", status: 422}`
 * Any other errors that the Gem experiences when connecting to the API will return a service error and the Excon error class:
 `    {body: "Service Unavailable: There was a problem connecting to the notifications API. Type: Excon::Error::Socket", status: 503}`
+
+## Logging
+Along with returning status error messages for API connection issues, the gem will also log connection errors.  The default behavior for this is to use the built in Ruby `Logger` and honor standard log level protocols.  The default log level is set to `debug` and will output to `STDOUT`.  This can also be configured by the gem user to use the gem consumer application's logger, including the app's environment specific log level.
+```
+# example implementation for a Rails app
+CertifyNotifications.configure do |config|
+  config.logger = Rails.logger
+  config.log_level = Rails.configuration.log_level
+end
+```
 
 ## Pagination
 
@@ -159,7 +169,13 @@ Responses will include pagination information, including the following:
 - `total_entries`: the total number of items that match the current search
 
 ## Development
-Use `rake console` to access the pry console.  While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
+Use `rake console` to access the pry console and add the messages API URL to the gem's config to be able to correctly test commands:
+```
+  CertifyNotifications.configuration.api_url = 'http://localhost:3004'
+```
+While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
+Byebug is included for debugging and can be called by inserting `byebug` inline.
+
 
 ## Changelog
 Refer to the changelog for details on API updates. [CHANGELOG](CHANGELOG.md)

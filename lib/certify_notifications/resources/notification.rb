@@ -14,7 +14,7 @@ module CertifyNotifications
                                     path: build_find_notifications_path(safe_params))
       return_response(json(response.data[:body]), response.data[:status])
     rescue Excon::Error => error
-      CertifyNotifications.service_unavailable error.class
+      handle_excon_error(error)
     end
     singleton_class.send(:alias_method, :find, :where)
 
@@ -47,7 +47,7 @@ module CertifyNotifications
                                     headers:  { "Content-Type" => "application/json" })
       return_response(parse_body(response.data[:body]), response.data[:status])
     rescue Excon::Error => error
-      CertifyNotifications.service_unavailable error.class
+      handle_excon_error(error)
     end
 
     private_class_method
@@ -80,7 +80,7 @@ module CertifyNotifications
                                     headers:  { "Content-Type" => "application/json" })
       return_response(parse_body(response.data[:body]), response.data[:status])
     rescue Excon::Error => error
-      CertifyNotifications.service_unavailable error.class
+      handle_excon_error(error)
     end
 
     def self.build_find_notifications_path(params)

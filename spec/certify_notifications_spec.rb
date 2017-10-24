@@ -13,6 +13,10 @@ RSpec.describe CertifyNotifications do
     expect(described_class.configuration.notify_api_version).to eq(1)
   end
 
+  it "will have a different excon_timeout than default" do
+    expect(described_class.configuration.excon_timeout).to eq(6)
+  end
+
   it "will have a Notification class" do
     expect(described_class::Notification.new).to be
   end
