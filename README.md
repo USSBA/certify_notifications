@@ -174,7 +174,7 @@ Use `rake console` to access the pry console and add the messages API URL to the
   CertifyNotifications.configuration.api_url = 'http://localhost:3004'
 ```
 While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
-Byebug is included for inline debugging and can be called by inserting `byebug` inline.
+Byebug is included for debugging and can be called by inserting `byebug` inline.
 
 
 ## Changelog
