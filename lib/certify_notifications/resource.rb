@@ -69,20 +69,8 @@ module CertifyNotifications
       CertifyNotifications.configuration.log_level
     end
 
-    # if there is a valid logger, then try to send the error to it
-    def self.write_log(log_level, message)
-      return nil if logger.nil?
-      raise ArgumentError, "invalid log level: #{log_level}" unless severity.include?(log_level)
-      log_method = logger.method(log_level)
-      log_method.call message
-    end
-
-    def self.severity
-      %w[debug info warn error fatal unknown]
-    end
-
     def self.handle_excon_error(error)
-      write_log('error', [error.message, error.backtrace.join("\n")].join("\n"))
+      logger.error [error.message, error.backtrace.join("\n")].join("\n")
       CertifyNotifications.service_unavailable error.message
     end
 

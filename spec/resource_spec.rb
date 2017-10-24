@@ -29,11 +29,11 @@ RSpec.describe CertifyNotifications do
     before { error.set_backtrace backtrace }
 
     it "raises an error if a bad log level is specified" do
-      expect { CertifyNotifications::Resource.write_log("foo", "bad error") }.to raise_error(ArgumentError)
+      expect { CertifyNotifications::Resource.logger.foo("bad error") }.to raise_error(NoMethodError)
     end
 
     it "logs the message for a valid log level" do
-      expect { CertifyNotifications::Resource.write_log("error", "bad error") }.not_to raise_error
+      expect { CertifyNotifications::Resource.logger.error("bad error") }.not_to raise_error
     end
 
     it "return an error message" do

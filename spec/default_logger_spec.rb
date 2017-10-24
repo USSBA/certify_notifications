@@ -10,13 +10,12 @@ RSpec.describe CertifyNotifications do
   end
 
   # handles all the standard log levels
-  severity = CertifyNotifications::Resource.severity
-  severity.each do |level|
+  %w[debug info warn error fatal unknown].each_with_index do |level, i|
     context "Creating the default Logger with '#{level}' log level specified" do
       let(:logger) { (CertifyNotifications::DefaultLogger.new level).logger }
 
       it "uses the default log level" do
-        expect(logger.level).to eq(severity.index(level))
+        expect(logger.level).to eq(i)
       end
     end
   end
