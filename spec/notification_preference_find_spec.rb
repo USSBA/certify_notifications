@@ -52,7 +52,8 @@ RSpec.describe "CertifyNotifications::NotificationPreference.find" do
           Excon.defaults[:mock] = false
           CertifyNotifications::NotificationPreference.find({id: 1})
         end
-        let(:error) { CertifyNotifications.service_unavailable 'Excon::Error::Socket' }
+        let(:error_type) { "SocketError" }
+        let(:error) { CertifyNotifications.service_unavailable error_type }
 
         after do
           CertifyNotifications::Resource.clear_connection
@@ -64,7 +65,7 @@ RSpec.describe "CertifyNotifications::NotificationPreference.find" do
         end
 
         it "returns an error message" do
-          expect(notification_preferences[:body]).to eq(error[:body])
+          expect(notification_preferences[:body]).to match(/#{error_type}/)
         end
       end
     end

@@ -55,7 +55,8 @@ RSpec.describe "CertifyNotifications::NotificationPreference.update" do
       end
 
       let(:bad_preference) { CertifyNotifications::NotificationPreference.update({user_id: 99, subscribe_low_priority_email: true}) }
-      let(:error) { CertifyNotifications.service_unavailable 'Excon::Error::Socket' }
+      let(:error_type) { "SocketError" }
+      let(:error) { CertifyNotifications.service_unavailable error_type }
 
       after do
         CertifyNotifications::Resource.clear_connection
@@ -67,7 +68,7 @@ RSpec.describe "CertifyNotifications::NotificationPreference.update" do
       end
 
       it "returns an error notification" do
-        expect(bad_preference[:body]).to eq(error[:body])
+        expect(bad_preference[:body]).to match(/#{error_type}/)
       end
     end
   end
