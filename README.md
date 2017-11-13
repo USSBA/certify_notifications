@@ -169,7 +169,7 @@ Responses will include pagination information, including the following:
 - `total_entries`: the total number of items that match the current search
 
 ## Development
-Use `rake console` to access the pry console and add the messages API URL to the gem's config to be able to correctly test commands:
+Use `rake console` to access the pry console and add the notifications API URL to the gem's config to be able to correctly test commands:
 ```
   CertifyNotifications.configuration.api_url = 'http://localhost:3004'
 ```
