@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.1] - 2017-11-13
+### shared-services-sprint-30
+### Changed
+  - HUB-960:
+    - Fixes an incorrect require statement
+
 ## [1.1.0] - 2017-10-27
 ### shared-services-sprint-28
 ### Added
