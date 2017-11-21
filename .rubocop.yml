@@ -41,3 +41,9 @@ Style/NumericLiterals:
 
 Style/StringLiterals:
   Enabled: false
+
+Lint/DuplicateMethods:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
