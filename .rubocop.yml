@@ -3,6 +3,8 @@ AllCops:
   Exclude:
       - 'db/schema.rb'
       - 'bin/*'
+      - 'vendor/**/*'
+
 
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
@@ -39,4 +41,3 @@ Style/NumericLiterals:
 
 Style/StringLiterals:
   Enabled: false
-
