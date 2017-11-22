@@ -1,6 +1,6 @@
 require "spec_helper"
 
-#rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength, RSpec/DescribeClass
+#rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
 RSpec.describe "CertifyNotifications::NotificationPreference.find" do
   describe "get notification preferences operations" do
     context "for getting notification preferences" do

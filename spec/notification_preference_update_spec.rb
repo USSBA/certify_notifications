@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-#rubocop:disable  Style/BracesAroundHashParameters, Metrics/BlockLength, Layout/IndentHash, RSpec/DescribeClass
+#rubocop:disable  Style/BracesAroundHashParameters, Metrics/BlockLength, Layout/IndentHash
 RSpec.describe "CertifyNotifications::NotificationPreference.update" do
   describe 'Updating notification preferences' do
     context 'for editing notification preferences' do
