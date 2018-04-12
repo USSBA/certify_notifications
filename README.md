@@ -1,6 +1,6 @@
 # CertifyNotifications
 
-This is a thin wrapper for the [Certify Notification API](https://github.com/SBA-ONE/notification-api) to handle basic GET and POST operations for notifications.
+This is a thin wrapper for the [Certify Notification API](https://github.com/USSBA/notification-api) to handle basic GET and POST operations for notifications.
 
 
 #### Table of Contents
@@ -24,7 +24,7 @@ There are two options you can use to install the gem. Building it manually, or i
 Add the following to your Gemfile to bring in the gem from GitHub:
 
 ```
-gem 'certify_notifications', git: 'git@github.com:SBA-ONE/certify_notifications.git', branch: 'develop' # Certify notification service
+gem 'certify_notifications', git: 'git@github.com:USSBA/certify_notifications.git', branch: 'develop' # Certify notification service
 ```
 
 This will pull the head of the develop branch in as a gem.  If there are updates to the gem repository, you will need to run `bundle update certify-notifications` to get them.
@@ -35,7 +35,7 @@ This will pull the head of the develop branch in as a gem.  If there are updates
 * `bundle install` to build it
 * You can run tests `rspec` to make sure it built okay.
 * Then `rake build` to build the gem, this builds the .gem file in /pkg
-* Jump over to the folder of the the app where you want to use them and follow the instructions below within that app/repo, for example, if working with the [Shared-Services Prototype](https://github.com/SBA-ONE/shared-services-prototype):
+* Jump over to the folder of the the app where you want to use them and follow the instructions below within that app/repo, for example, if working with the [Shared-Services Prototype](https://github.com/USSBA/shared-services-prototype):
   * Copy the .gem into the folder `vendor/gems/certify_notifications`
   * In the app where you want to use the gem, do `gem install <path to gem>` e.g. `gem install vendor/gems/certify_notifications/certify_notifications-0.1.0.gem`
   * add `gem 'certify_notifications'` to your Gemfile
