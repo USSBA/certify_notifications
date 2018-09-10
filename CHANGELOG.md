@@ -1,7 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.1.2] - 2018-09-14
+### shared-services-sprint-51
+### Changed
+  - HUB-1583:
+    - bumping the version for deployment via CodeBuild to GemInABox
 
 ## [1.1.1] - 2017-11-13
 ### shared-services-sprint-30
