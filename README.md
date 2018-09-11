@@ -52,6 +52,31 @@ This will pull the head of the develop branch in as a gem.  If there are updates
   * `bundle install`
   * If this worked correctly, you should see `certify_notifications` in your `Gemfile.lock`
 
+### GemInABox
+
+Having acquired the readtoken to the SBA geminabox server, add it to your bundle config via `bundle config geminabox.sba-one.net readtoken:readtoken`.
+
+To relase a new version to geminabox, simply tag the repository with a tag in the form vX.Y.Z.  This will trigger an AWS CodeBuild process to build and deploy the gem to geminabox.
+
+To use the gem from geminabox, add the following to your `Gemfile`:
+```
+group :ussba, :default do
+  source 'https://geminabox.sba-one.net/' do
+    gem 'certify_notifications'
+  end
+end
+```
+
+### Install gem from GitHub
+
+Alternatively, you can add the following to your Gemfile to bring in the gem from GitHub:
+
+```
+gem 'certify_notifications', git: 'git@github.com:USSBA/certify_notifications.git', branch: 'develop' # Certify messaging service
+```
+
+This will pull the head of the develop branch in as a gem.  If there are updates to the gem repository, you will need to run `bundle update certify_notifications` to get them.
+
 ## Usage
 
 ### Configuration
