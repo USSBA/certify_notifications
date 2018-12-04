@@ -12,3 +12,7 @@
 
 # debugging support
 .byebug_history
+
+# Jetbrains config files
+.idea/*
+
