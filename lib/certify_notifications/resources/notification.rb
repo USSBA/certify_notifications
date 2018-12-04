@@ -59,8 +59,21 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_safe_params(p)
-      permitted_keys = %w[id recipient_id application_id email event_type subtype priority read options body email_subject certify_link page per_page]
+      permitted_keys = %w[email event_type subtype priority read options body email_subject certify_link page per_page]
+      permitted_keys.push(*version_specific_keys)
       symbolize_params(p.select { |key, _| permitted_keys.include? key.to_s })
+    end
+
+    def self.version_specific_keys
+      case notify_api_version
+      when 1
+        %w[id recipient_id application_id]
+      when 2
+        %w[id recipient_id application_id]
+      when 3
+        # TODO: check if we used uuid for notifications
+        %w[uuid recipient_uuid application_uuid]
+      end
     end
 
     def self.notification_create_safe_param(strict, p)
@@ -92,7 +105,19 @@ module CertifyNotifications
     end
 
     def self.build_update_notification_path(params)
-      "#{path_prefix}/#{notifications_path}/#{params[:id]}"
+      "#{path_prefix}/#{notifications_path}/#{notification_param_value(params)}"
+    end
+
+    # Returns ID or UUID value based on version
+    def self.notification_param_value(params)
+      case notify_api_version
+      when 1
+        params[:id]
+      when 2
+        params[:uuid]
+      when 3
+        params[:uuid]
+      end
     end
   end
 end
