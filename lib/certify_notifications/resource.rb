@@ -56,6 +56,10 @@ module CertifyNotifications
       CertifyNotifications.configuration.api_url
     end
 
+    def self.notify_api_version
+      CertifyNotifications.configuration.notify_api_version
+    end
+
     def self.path_prefix
       CertifyNotifications.configuration.path_prefix
     end
