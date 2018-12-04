@@ -1,4 +1,5 @@
 require "spec_helper"
+require 'support/v1/notifications_spec_helper'
 
 #rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
 RSpec.describe CertifyNotifications do
