@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2018-12-07
+### shared-services-sprint-57
+### Added
+  - HUB-1702:
+    - Added handling of uuid values for v2 release of Notification API.
+
 ## [1.2.0] - 2018-09-30
 ### shared-services-sprint-52
 ### Added
