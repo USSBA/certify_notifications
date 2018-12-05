@@ -112,8 +112,6 @@ module CertifyNotifications
         params[:id]
       when 2
         params[:uuid]
-      when 3
-        params[:uuid]
       end
     end
   end

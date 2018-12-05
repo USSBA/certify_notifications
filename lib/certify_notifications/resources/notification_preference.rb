@@ -48,8 +48,6 @@ module CertifyNotifications
         %w[id user_id]
       when 2
         %w[uuid user_uuid]
-      when 3
-        %w[uuid user_uuid]
       end
     end
 
@@ -67,8 +65,6 @@ module CertifyNotifications
       when 1
         params[:user_id]
       when 2
-        params[:user_uuid]
-      when 3
         params[:user_uuid]
       end
     end
