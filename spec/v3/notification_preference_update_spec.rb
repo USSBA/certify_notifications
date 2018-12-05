@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'support/v1/notifications_spec_helper'
+require 'support/v3/notifications_spec_helper'
 
 #rubocop:disable  Style/BracesAroundHashParameters, Metrics/BlockLength, Layout/IndentHash
-module V1
+module V3
   RSpec.describe "CertifyNotifications::NotificationPreference.update" do
     before do
-      CertifyNotifications.configuration.notify_api_version = 1
+      CertifyNotifications.configuration.notify_api_version = 3
     end
 
     describe 'Updating notification preferences' do
@@ -18,7 +18,7 @@ module V1
           pref[:subscribe_low_priority_email] = false
           Excon.stub({}, body: pref.to_json, status: 201)
           CertifyNotifications::NotificationPreference.update({
-            user_id: pref[:user_id],
+            user_uuid: pref[:user_id],
             subscribe_low_priority_email: pref[:subscribe_low_priority_email]
           })
         end
@@ -60,7 +60,7 @@ module V1
           Excon.defaults[:mock] = false
         end
 
-        let(:bad_preference) { CertifyNotifications::NotificationPreference.update({user_id: 99, subscribe_low_priority_email: true}) }
+        let(:bad_preference) { CertifyNotifications::NotificationPreference.update({user_uuid: NotificationSpecHelper.mock_user_uuid, subscribe_low_priority_email: true}) }
         let(:error_type) { "SocketError" }
         let(:error) { CertifyNotifications.service_unavailable error_type }
 

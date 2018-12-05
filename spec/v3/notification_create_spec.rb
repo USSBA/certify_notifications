@@ -1,11 +1,11 @@
 require "spec_helper"
-require 'support/v1/notifications_spec_helper'
+require 'support/v3/notifications_spec_helper'
 
 #rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
-module V1
+module V3
   RSpec.describe CertifyNotifications do
     before do
-      CertifyNotifications.configuration.notify_api_version = 1
+      CertifyNotifications.configuration.notify_api_version = 3
     end
 
     NotificationSpecHelper.mock_notification_types.each do |type, notify_mock|
@@ -88,7 +88,7 @@ module V1
         # this will work if the API is disconnected, but I can't figure out how to
         # fake the Excon connection to force it to fail in a test env.
         context "with api not found" do
-          let(:notification) { CertifyNotifications::Notification.create_soft({id: 1}) }
+          let(:notification) { CertifyNotifications::Notification.create_soft({uuid: NotificationSpecHelper.mock_notification_uuid}) }
           let(:error_type) { "SocketError" }
           let(:error) { described_class.service_unavailable error_type }
 

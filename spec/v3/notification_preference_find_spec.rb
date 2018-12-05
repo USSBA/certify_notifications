@@ -1,11 +1,11 @@
 require "spec_helper"
-require 'support/v1/notifications_spec_helper'
+require 'support/v3/notifications_spec_helper'
 
 #rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
-module V1
+module V3
   RSpec.describe "CertifyNotifications::NotificationPreference.find" do
     before do
-      CertifyNotifications.configuration.notify_api_version = 1
+      CertifyNotifications.configuration.notify_api_version = 3
     end
 
     describe "get notification preferences operations" do
@@ -13,7 +13,7 @@ module V1
         let(:mock) { NotificationSpecHelper.mock_notification_preference }
         let(:notification_preferences) do
           Excon.stub({}, body: mock.to_json, status: 200)
-          CertifyNotifications::NotificationPreference.find({user_id: mock[:user_id]})
+          CertifyNotifications::NotificationPreference.find({user_uuid: mock[:user_uuid]})
         end
 
         it "returns a good status code" do
@@ -25,7 +25,6 @@ module V1
         end
       end
 
-      # rubocop:disable RSpec/NestedGroups
       context "handles errors" do
         context "no params" do
           let(:notification_preferences) { CertifyNotifications::NotificationPreference.find }
@@ -56,7 +55,7 @@ module V1
           let(:notification_preferences) do
             CertifyNotifications::Resource.clear_connection
             Excon.defaults[:mock] = false
-            CertifyNotifications::NotificationPreference.find({id: 1})
+            CertifyNotifications::NotificationPreference.find({user_uuid: NotificationSpecHelper.mock_user_uuid})
           end
           let(:error_type) { "SocketError" }
           let(:error) { CertifyNotifications.service_unavailable error_type }
