@@ -13,10 +13,6 @@ module NotificationSpecHelper
     "11111111-1111-1111-1111-111111111111"
   end
 
-  def self.mock_application_uuid
-    "22222222-2222-2222-2222-222222222222"
-  end
-
   def self.mock_user_uuid
     "33333333-3333-3333-3333-333333333333"
   end
@@ -41,7 +37,7 @@ module NotificationSpecHelper
   def self.mock_notification_sym
     { uuid: mock_notification_uuid,
       recipient_uuid: mock_recipient_uuid,
-      application_uuid: mock_application_uuid,
+      application_id: Faker::Number.number(5),
       email: Faker::Internet.email,
       event_type: %w[application_state_change application_assignment access_request new_message].sample,
       subtype: %w['' submission accepted closed withdrawal].sample,
@@ -60,7 +56,7 @@ module NotificationSpecHelper
   def self.mock_notification_string
     { "uuid" => mock_notification_uuid,
       "recipient_uuid" => mock_recipient_uuid,
-      "application_uuid" => mock_application_uuid,
+      "application_id" => Faker::Number.number(5),
       "email" => Faker::Internet.email,
       "event_type" => %w[application_state_change application_assignment access_request new_message].sample,
       "subtype" => %w['' submission accepted closed withdrawal].sample,
@@ -72,7 +68,7 @@ module NotificationSpecHelper
   def self.mock_notification_mixed
     { uuid: mock_notification_uuid,
       recipient_uuid: mock_recipient_uuid,
-      "application_uuid" => mock_recipient_uuid,
+      "application_id" => Faker::Number.number(5),
       "email" => Faker::Internet.email,
       "event_type" => %w[application_state_change application_assignment access_request new_message].sample,
       subtype: %w['' submission accepted closed withdrawal].sample,

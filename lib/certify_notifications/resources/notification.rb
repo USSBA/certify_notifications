@@ -59,7 +59,7 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_safe_params(p)
-      permitted_keys = %w[email event_type subtype priority read options body email_subject certify_link page per_page]
+      permitted_keys = %w[email event_type subtype priority read options body email_subject certify_link page per_page application_id]
       permitted_keys.push(*version_specific_keys)
       symbolize_params(p.select { |key, _| permitted_keys.include? key.to_s })
     end
@@ -67,9 +67,9 @@ module CertifyNotifications
     def self.version_specific_keys
       case notify_api_version
       when 1
-        %w[id recipient_id application_id]
+        %w[id recipient_id]
       when 2
-        %w[uuid recipient_uuid application_uuid]
+        %w[uuid recipient_uuid]
       end
     end
 
