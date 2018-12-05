@@ -58,9 +58,9 @@ module NotificationSpecHelper
   end
 
   def self.mock_notification_string
-    { "uuid" => Faker::Number.number(10),
-      "recipient_uuid" => Faker::Number.number(10),
-      "application_uuid" => Faker::Number.number(5),
+    { "uuid" => mock_notification_uuid,
+      "recipient_uuid" => mock_recipient_uuid,
+      "application_uuid" => mock_application_uuid,
       "email" => Faker::Internet.email,
       "event_type" => %w[application_state_change application_assignment access_request new_message].sample,
       "subtype" => %w['' submission accepted closed withdrawal].sample,
