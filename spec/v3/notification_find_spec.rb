@@ -3,7 +3,7 @@ require 'support/v3/notifications_spec_helper'
 
 #rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
 module V3
-  RSpec.describe CertifyNotifications do
+  RSpec.describe "V3 CertifyNotifications" do
     before do
       CertifyNotifications.configuration.notify_api_version = 3
     end
@@ -36,10 +36,10 @@ module V3
         let(:body) { notifications[:body] }
 
         it "will return an error message" do
-          expect(body).to eq(described_class.bad_request[:body])
+          expect(body).to eq(CertifyNotifications.bad_request[:body])
         end
         it "will return a 400" do
-          expect(notifications[:status]).to eq(described_class.bad_request[:status])
+          expect(notifications[:status]).to eq(CertifyNotifications.bad_request[:status])
         end
       end
 
@@ -48,11 +48,11 @@ module V3
         let(:body) { notifications[:body] }
 
         it "will return an error message when a bad parameter is sent" do
-          expect(body).to eq(described_class.unprocessable[:body])
+          expect(body).to eq(CertifyNotifications.unprocessable[:body])
         end
 
         it "will return a 422 http status" do
-          expect(notifications[:status]).to eq(described_class.unprocessable[:status])
+          expect(notifications[:status]).to eq(CertifyNotifications.unprocessable[:status])
         end
       end
 
@@ -61,7 +61,7 @@ module V3
       context "with api not found" do
         let(:notifications) { CertifyNotifications::Notification.find({uuid: NotificationSpecHelper.mock_notification_uuid}) }
         let(:error_type) { "SocketError" }
-        let(:error) { described_class.service_unavailable error_type }
+        let(:error) { CertifyNotifications.service_unavailable error_type }
 
         before do
           CertifyNotifications::Resource.clear_connection

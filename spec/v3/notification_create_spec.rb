@@ -3,7 +3,7 @@ require 'support/v3/notifications_spec_helper'
 
 #rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
 module V3
-  RSpec.describe CertifyNotifications do
+  RSpec.describe "V3 CertifyNotifications" do
     before do
       CertifyNotifications.configuration.notify_api_version = 3
     end
@@ -65,11 +65,11 @@ module V3
           let(:bad_notification) { CertifyNotifications::Notification.create_soft }
 
           it 'will return a status code of 400' do
-            expect(bad_notification[:status]).to eq(described_class.bad_request[:status])
+            expect(bad_notification[:status]).to eq(CertifyNotifications.bad_request[:status])
           end
 
           it 'will return an error message' do
-            expect(bad_notification[:body]).to eq(described_class.bad_request[:body])
+            expect(bad_notification[:body]).to eq(CertifyNotifications.bad_request[:body])
           end
         end
 
@@ -77,11 +77,11 @@ module V3
           let(:bad_notification) { CertifyNotifications::Notification.create_soft({foo: 'bar'}) }
 
           it 'will return a status code of 422' do
-            expect(bad_notification[:status]).to eq(described_class.unprocessable[:status])
+            expect(bad_notification[:status]).to eq(CertifyNotifications.unprocessable[:status])
           end
 
           it 'will return an error message' do
-            expect(bad_notification[:body]).to eq(described_class.unprocessable[:body])
+            expect(bad_notification[:body]).to eq(CertifyNotifications.unprocessable[:body])
           end
         end
 
@@ -90,7 +90,7 @@ module V3
         context "with api not found" do
           let(:notification) { CertifyNotifications::Notification.create_soft({uuid: NotificationSpecHelper.mock_notification_uuid}) }
           let(:error_type) { "SocketError" }
-          let(:error) { described_class.service_unavailable error_type }
+          let(:error) { CertifyNotifications.service_unavailable error_type }
 
           before do
             CertifyNotifications::Resource.clear_connection
