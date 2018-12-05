@@ -1,11 +1,11 @@
 require "spec_helper"
-require 'support/v3/notifications_spec_helper'
+require 'support/v2/notifications_spec_helper'
 
 #rubocop:disable Style/BracesAroundHashParameters, Metrics/BlockLength
-module V3
-  RSpec.describe "V3 CertifyNotifications" do
+module V2
+  RSpec.describe "V2 CertifyNotifications" do
     before do
-      CertifyNotifications.configuration.notify_api_version = 3
+      CertifyNotifications.configuration.notify_api_version = 2
     end
 
     describe "get notifications operations" do

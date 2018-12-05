@@ -69,9 +69,6 @@ module CertifyNotifications
       when 1
         %w[id recipient_id application_id]
       when 2
-        %w[id recipient_id application_id]
-      when 3
-        # TODO: check if we used uuid for notifications
         %w[uuid recipient_uuid application_uuid]
       end
     end
