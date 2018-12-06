@@ -3,7 +3,7 @@ require 'support/v2/notifications_spec_helper'
 
 #rubocop:disable  Style/BracesAroundHashParameters, Metrics/BlockLength, Layout/IndentHash
 module V2
-  RSpec.describe "CertifyNotifications::NotificationPreference.update" do
+  RSpec.describe "V2 CertifyNotifications::NotificationPreference.update" do
     before do
       CertifyNotifications.configuration.notify_api_version = 2
     end
