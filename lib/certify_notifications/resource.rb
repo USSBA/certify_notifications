@@ -23,9 +23,9 @@ module CertifyNotifications
     def add_version_to_header(options)
       version = CertifyNotifications.configuration.notify_api_version
       if options[:headers]
-        options[:headers].merge!('Accept' => "application/sba.notify-api.v#{version}")
+        options[:headers].merge!('Accept' => "application/sba.not-api.v#{version}")
       else
-        options.merge!(headers: { 'Accept' => "application/sba.notify-api.v#{version}" })
+        options.merge!(headers: { 'Accept' => "application/sba.not-api.v#{version}" })
       end
     end
   end
