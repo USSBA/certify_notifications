@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    certify_notifications (1.1.2)
+    certify_notifications (1.2.0)
       excon
       excon-rails
       json

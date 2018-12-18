@@ -52,6 +52,31 @@ This will pull the head of the develop branch in as a gem.  If there are updates
   * `bundle install`
   * If this worked correctly, you should see `certify_notifications` in your `Gemfile.lock`
 
+### GemInABox
+
+Having acquired the readtoken to the SBA geminabox server, add it to your bundle config via `bundle config geminabox.sba-one.net readtoken:readtoken`.
+
+To relase a new version to geminabox, simply tag the repository with a tag in the form vX.Y.Z.  This will trigger an AWS CodeBuild process to build and deploy the gem to geminabox.
+
+To use the gem from geminabox, add the following to your `Gemfile`:
+```
+group :ussba, :default do
+  source 'https://geminabox.sba-one.net/' do
+    gem 'certify_notifications'
+  end
+end
+```
+
+### Install gem from GitHub
+
+Alternatively, you can add the following to your Gemfile to bring in the gem from GitHub:
+
+```
+gem 'certify_notifications', git: 'git@github.com:USSBA/certify_notifications.git', branch: 'develop' # Certify messaging service
+```
+
+This will pull the head of the develop branch in as a gem.  If there are updates to the gem repository, you will need to run `bundle update certify_notifications` to get them.
+
 ## Usage
 
 ### Configuration
@@ -62,9 +87,12 @@ CertifyNotifications.configure do |config|
   config.api_url = "http://localhost:3004"
   config.notify_api_version = 1
   config.excon_timeout = 5
+  config.api_key = "your_api_key"
 end
 ```
 With [v1.1.0](CHANGELOG.md#110---2017-10-28), the default Excon API connection timeout was lowered to `20 seconds`. The gem user can also provide a timeout value in seconds as shown above in the `configure` block.  This value is used for the Excon parameters `connect_timeout`, `read_timeout`, and `write_timeout`.
+
+The `api_key` is currently unused, but we anticipate adding in an API Gateway layer in the future.
 
 ### Notifications
 
