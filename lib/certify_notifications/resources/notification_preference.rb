@@ -37,16 +37,36 @@ module CertifyNotifications
 
     # helper for white listing parameters
     def self.notification_preference_safe_params(params)
-      permitted_keys = %w[id user_id subscribe_high_priority_emails subscribe_low_priority_emails]
+      permitted_keys = %w[subscribe_high_priority_emails subscribe_low_priority_emails]
+      permitted_keys.push(*version_specific_keys)
       params.select { |key, _| permitted_keys.include? key.to_s }
     end
 
+    def self.version_specific_keys
+      case notify_api_version
+      when 1
+        %w[id user_id]
+      when 2
+        %w[uuid user_uuid]
+      end
+    end
+
     def self.build_notification_preference_path(params)
-      "#{path_prefix}/#{notification_preferences_path}/#{params[:user_id]}"
+      "#{path_prefix}/#{notification_preferences_path}/#{user_param_value(params)}"
     end
 
     def self.build_create_notification_preferences_path
       "#{path_prefix}/#{notification_preferences_path}"
+    end
+
+    # Returns user ID or UUID value based on version
+    def self.user_param_value(params)
+      case notify_api_version
+      when 1
+        params[:user_id]
+      when 2
+        params[:user_uuid]
+      end
     end
   end
 end
