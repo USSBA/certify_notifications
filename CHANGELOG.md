@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3.2] - 2019-02-28
+### shared-services-sprint-63
+### Changed
+  - Updates documentation
+
 ## [1.3.1] - 2018-12-20
 ### shared-services-sprint-59
 ### Changed
