@@ -1,10 +1,11 @@
 # CertifyNotifications
-This is a thin wrapper for the [Certify Notification API](https://github.com/USSBA/notification-api) to handle basic GET and POST operations for notifications.
+Thin wrapper for the [Certify Notification API](https://github.com/USSBA/notification-api) to handle basic GET and POST operations for notifications.
 
 #### Table of Contents
 - [Installation](#user-content-installation)
 - [Configuration](#user-content-configuration)
 - [Methods](#user-content-methods)
+- [Pagination](#user-content-pagination)
 - [Error Handling](#user-content-error-handling)
 - [Logging](#user-content-logging)
 - [Development](#user-content-development)
