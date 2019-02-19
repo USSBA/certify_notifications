@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "measurementType": { "method": "projects"},
+  "agency": "SBA",
+  "releases": [
+    {
+      "name": "Certify Notifications",
+      "repositoryURL": "https://github.com/USSBA/certify-notifications/",
+      "description": "SBA Certify Notification gem is a thin wrapper for the [Certify Notification API](https://github.com/USSBA/notification-api) to handle basic GET and POST operations for notification entries.",
+      "permissions": {
+        "licenses": [{
+          "name": "Apache License 2.0",
+          "URL": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        }],
+        "usageType": "openSource"
+      },
+      "laborHours": 460,
+      "tags": ["SBA", "Certify", "Rails", "Notification"],
+      "contact": { "email" : "Andrew.Davy@sba.gov" },
+      "vcs" : "git",
+      "homepageURl": ""
+    }
+  ]
+}
