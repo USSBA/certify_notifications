@@ -14,7 +14,12 @@ This is a thin wrapper for the [Certify Notification API](https://github.com/USS
 - [Pagination](#user-content-pagination)
 - [Development](#user-content-development)
 - [Publishing](#user-content-publishing)
+- [Tests](#tests)
 - [Changelog](#changelog)
+- [License](#license)
+- [Contributing](#contributing)
+  - [Code of Conduct](#code-of-conduct)
+- [Security Issues](#security-issues)
 
 ## Installation
 
@@ -254,14 +259,14 @@ Poirot will return an error status if it finds any secrets in the commit history
 Refer to the changelog for details on API updates. [CHANGELOG](CHANGELOG.md)
 
 ## License
-The SBA-IDP is licensed permissively under the Apache License v2.0.
+Certify Notifications is licensed permissively under the Apache License v2.0.
 A copy of that license is distributed with this software.
 
 ## Contributing
 We welcome contributions. Please read [CONTRIBUTING](CONTRIBUTING.md) for how to contribute.
 
 ### Code of Conduct
-We strive for a welcoming and inclusive environment for the SBA-IDP project.
+We strive for a welcoming and inclusive environment for the Certify Notifications project.
 
 Please follow this guidelines in all interactions:
 1. Be Respectful: use welcoming and inclusive language.
