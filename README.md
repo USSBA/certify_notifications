@@ -1,20 +1,15 @@
 # CertifyNotifications
-
-This is a thin wrapper for the [Certify Notification API](https://github.com/USSBA/notification-api) to handle basic GET and POST operations for notifications.
-
+Thin wrapper for the [Certify Notification API](https://github.com/USSBA/notification-api) to handle basic GET and POST operations for notifications.
 
 #### Table of Contents
-- [Installation](#user-content-installation)
-- [Usage](#user-content-usage)
-    - [Configuration](#user-content-configuration)
-    - [Notifications](#user-content-notifications)
-    - [Notification Preferences](#user-content-notification-preferences)
-- [Error Handling](#user-content-error-handling)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Methods](#methods)
+- [Pagination](#pagination)
+- [Error Handling](#error-handling)
 - [Logging](#logging)
-- [Pagination](#user-content-pagination)
-- [Development](#user-content-development)
-- [Publishing](#user-content-publishing)
-- [Tests](#tests)
+- [Development](#development)
+- [Publishing](#publishing)
 - [Changelog](#changelog)
 - [License](#license)
 - [Contributing](#contributing)
@@ -22,8 +17,6 @@ This is a thin wrapper for the [Certify Notification API](https://github.com/USS
 - [Security Issues](#security-issues)
 
 ## Installation
-
-There are three options you can use to install the gem. Pulling from the private sba-one gem server, building it manually, or installing directly from GitHub.
 
 ### Pulling from private geminabox (preferred)
 
@@ -39,7 +32,7 @@ end
 Add the following to your Gemfile to bring in the gem from GitHub:
 
 ```
-gem 'certify_notifications', git: 'git@github.com:USSBA/certify_notifications.git', branch: 'develop' # Certify notification service
+gem 'certify_notifications', git: 'git@github.com:USSBA/certify_notifications.git', branch: 'develop'
 ```
 
 This will pull the head of the develop branch in as a gem.  If there are updates to the gem repository, you will need to run `bundle update certify-notifications` to get them.
@@ -52,148 +45,39 @@ This will pull the head of the develop branch in as a gem.  If there are updates
 gem 'certify_notification, path: '<path-to-the-gem-on-your-system>'
 ```
 
-### GemInABox
-
-Having acquired the read token to the SBA geminabox server, add it to your bundle config via `bundle config geminabox.sba-one.net readtoken:readtoken`.
-
-To relase a new version to geminabox, simply tag the repository with a tag in the form vX.Y.Z.  This will trigger an AWS CodeBuild process to build and deploy the gem to geminabox.
-
-To use the gem from geminabox, add the following to your `Gemfile`:
-```
-group :ussba, :default do
-  source 'https://geminabox.sba-one.net/' do
-    gem 'certify_notifications'
-  end
-end
-```
-
-### Install gem from GitHub
-
-Alternatively, you can add the following to your Gemfile to bring in the gem from GitHub:
-
-```
-gem 'certify_notifications', git: 'git@github.com:USSBA/certify_notifications.git', branch: 'develop' # Certify messaging service
-```
-
-This will pull the head of the develop branch in as a gem.  If there are updates to the gem repository, you will need to run `bundle update certify_notifications` to get them.
-
-## Usage
-
-### Configuration
-Set the notifications API URL in your apps `config/initializers` folder, you probably also want to include a `notifications.yml` under `config` to be able to specify the URL based on your environment.
+## Configuration
+Within the host application, set the Certify Notifications API URL in `config/initializers`, you probably also want to include a `notifications.yml` under `config` to be able to specify the URL based on your environment.
 
 ```
 CertifyNotifications.configure do |config|
-  config.api_url = "http://localhost:3004"
-  config.notify_api_version = 1
-  config.excon_timeout = 5
   config.api_key = "your_api_key"
+  config.api_url = "http://localhost:3000"
+  config.api_version = 1
+  config.excon_timeout = 5
 end
 ```
-With [v1.1.0](CHANGELOG.md#110---2017-10-28), the default Excon API connection timeout was lowered to `20 seconds`. The gem user can also provide a timeout value in seconds as shown above in the `configure` block.  This value is used for the Excon parameters `connect_timeout`, `read_timeout`, and `write_timeout`.
-
 The `api_key` is currently unused, but we anticipate adding in an API Gateway layer in the future.
 
+## Methods
+Refer to the [Certify Notifications API](https://github.com/USSBA/notifications-api) for more complete documentation and detailed examples of method responses.
+
+Note: The Notifications API has multiple versions that support different parameters. For example, v3 may require an `application_uuid` instead of an `application_id`. Refer to the API documentation to know which parameters to use depending on the version.
+
 ### Notifications
-
-#### Finding (GET) Notifications
-* calling `CertifyNotifications::Notification.where({recipient_id: 1})` will query for all notifications for recipient_id = 1
-* Calling the `.where` method with empty or invalid parameters will result in an error (see below)
-
-#### Creating (POST) Notifications
-* to create a new notification, the following parameters are required:
-```
-  CertifyNotifications::Notification.create({
-    event_type: <string>,
-    subtype: <string>
-    recipient_id: <int>,
-    application_id <int>,
-    email: <string>,
-    options: <hash>
-  })
-```
-* and with optional parameters
-```
-  CertifyNotifications::Notification.create({
-    event_type: <string>,
-    subtype: <string>
-    recipient_id: <int>,
-    application_id <int>,
-    email: <string>,
-    options: <hash>,
-    certify_link: <string>,
-    priority: <boolean>
-  })
-```
-* refer to https://github.com/USSBA/notification-api/ for valid `event_type`, `subtype`, and `options` values
-* This will return a JSON hash with a `body` containing the data of the notification along with `status` of 201.
-* Calling the `.create` method with empty or invalid parameters will result in an error (see below)
-
-#### Updating (PUT) Notifications
-* to update a notification,for example to mark it as read:
-```
-  CertifyNotifications::Notification.update({
-    id: <int>,
-    read: <boolean>
-  })
-```
-  * This will return a status of 204.
-* Calling the `.update` method with empty or invalid parameters will result in an error (see below)
+| Method | Description |
+| ------ | ----------- |
+| `CertifyNotifications::Notification.where({recipient_id: 1})` | Query for all notifications for recipient_id = 1 |
+| `CertifyNotifications::Notification.create({ event_type: <string>, subtype: <string>, recipient_id: <int>, application_id <int>, email: <string>, options: <hash> })` | Create a new notification. Refer to https://github.com/USSBA/notification-api/ for valid `event_type`, `subtype`, and `options` values. |
+| `CertifyNotifications::Notification.create_soft({ event_type: <string>, subtype: <string>, recipient_id: <int>, application_id <int>, email: <string>, options: <hash> })` | Create a new notification with soft validation |
+| `CertifyNotifications::Notification.create_strict({ event_type: <string>, subtype: <string>, recipient_id: <int>, application_id <int>, email: <string>, options: <hash> })` | Create a new notification with strict validation |
+| `CertifyNotifications::Notification.update({ id: <int>, read: <boolean> })` | Update a notification. Ex. mark it as read |
 
 ### Notification Preferences
 
-#### Valid Parameters
-
-The only valid parameters for the notification preferences are as follows:
-* user_id (integer, required)
-* subscribe_low_priority_emails (boolean, optional)
-* subscribe_high_priority_emails (boolean, optional)
-
-#### Finding (GET) Notification Preferences
-* calling `CertifyNotifications::NotificationPreference.where({user_id: 1})` will query for the preferences for user_id = 1
-* Calling the `.where` method with empty or invalid parameters will result in an error (see below)
-* NOTE: if no preference object is found, one is created with default values and returned
-
-#### Updating (PUT) Notification Preferencess
-* to update a notification preference,for example to unsubscribe from low priority emails (i.e., digest emails):
-```
-  CertifyNotifications::NotificationPreference.update({
-    user_id: <int>,
-    subscribe_low_priority_emails: <boolean>
-  })
-```
-  * This will return a status of 204.
-* Calling the `.update` method with empty or invalid parameters will result in an error (see below)
-
-## Error Handling
-* Calling a Gem method with no or empty parameters, e.g.:
-```
-CertifyNotifictions::Notification.where  {}
-CertifyNotifictions::Notification.create {}
-CertifyNotifictions::Notification.update {}
-```
-will return a bad request:
-`{body: "Bad Request: No parameters submitted", status: 400}`
-* Calling a Gem method with invalid parameters:
-```
-CertifyNotifictions::Notification.where  {foo: 'bar'}
-CertifyNotifictions::Notification.create {foo: 'bar'}
-CertifyNotifictions::Notification.update {foo: 'bar'}
-```
-will return an unprocessable entity error:
-`{body: "Unprocessable Entity: Invalid parameters submitted", status: 422}`
-* Any other errors that the Gem experiences when connecting to the API will return a service error and the Excon error class:
-`    {body: "Service Unavailable: There was a problem connecting to the notifications API. Type: Excon::Error::Socket", status: 503}`
-
-## Logging
-Along with returning status error messages for API connection issues, the gem will also log connection errors.  The default behavior for this is to use the built in Ruby `Logger` and honor standard log level protocols.  The default log level is set to `debug` and will output to `STDOUT`.  This can also be configured by the gem user to use the gem consumer application's logger, including the app's environment specific log level.
-```
-# example implementation for a Rails app
-CertifyNotifications.configure do |config|
-  config.logger = Rails.logger
-  config.log_level = Rails.configuration.log_level
-end
-```
+| Method | Description |
+| ------ | ----------- |
+| `CertifyNotifications::NotificationPreference.where({user_id: 1})` | Query for the preferences for user_id = 1 |
+| `CertifyNotifications::NotificationPreference.update({ user_id: <int>, subscribe_low_priority_emails: <boolean> })` | Update notifications preferences. Ex. unsubscribe a user from low priority emails |
 
 ## Pagination
 
@@ -206,13 +90,40 @@ Responses will include pagination information, including the following:
 - `per_page`: the number of items per page
 - `total_entries`: the total number of items that match the current search
 
+## Error Handling
+
+The Gem handles a few basic errors including:
+
+* Bad Request - Raised when API returns the HTTP status code 400
+* NotFound - Raised when API returns the HTTP status code 404
+* InternalServerError - Raised when API returns the HTTP status code 500
+* ServiceUnavailable - Raised when API returns the HTTP status code 503
+
+Otherwise the gem will return more specific errors from the API. Refer to the API Docs for details around the specific error.
+
+A typical error will look something like this:
+```
+{:body=>{"message"=>"No notifications found"}, :status=>404}
+```
+
+## Logging
+Along with returning status error messages for API connection issues, the gem will also log connection errors.  The default behavior for this is to use the built in Ruby `Logger` and honor standard log level protocols.  The default log level is set to `debug` and will output to `STDOUT`.  This can also be configured by the gem user to use the gem consumer application's logger, including the app's environment specific log level.
+```
+# example implementation for a Rails app
+CertifyNotifications.configure do |config|
+  config.logger = Rails.logger
+  config.log_level = Rails.configuration.log_level
+end
+```
+
 ## Development
-Use `rake console` to access the pry console and add the notifications API URL to the gem's config to be able to correctly test commands:
+After checking out the repo, run `bundle install` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+Use `bin/console` to access the pry console and add the API URL to the gem's config to be able to correctly test commands:
 ```
-  CertifyNotifications.configuration.api_url = 'http://localhost:3004'
+CertifyNotifications.configuration.api_url="http://localhost:3000"
 ```
-While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.
-Byebug is included for debugging and can be called by inserting `byebug` inline.
+While working in the console, you can run `reload!` to reload any code in the gem so that you do not have to restart the console.  This should not reset the manual edits to the `configuration` as noted above.
 
 ## Publishing
 To release a new version:

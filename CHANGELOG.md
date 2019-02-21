@@ -1,11 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [1.3.1] - 2019-02-28
+## [1.3.2] - 2019-02-28
 ### shared-services-sprint-63
 ### Added
   - HUB-1830:
     - Updated repo for open sourcing.
+### Changed
+  - Updates documentation
+
+## [1.3.1] - 2018-12-20
+### shared-services-sprint-59
+### Changed
+  - Fixes notification header version
 
 ## [1.3.0] - 2018-12-07
 ### shared-services-sprint-57
