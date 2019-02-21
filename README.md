@@ -2,15 +2,15 @@
 Thin wrapper for the [Certify Notification API](https://github.com/USSBA/notification-api) to handle basic GET and POST operations for notifications.
 
 #### Table of Contents
-- [Installation](#user-content-installation)
-- [Configuration](#user-content-configuration)
-- [Methods](#user-content-methods)
-- [Pagination](#user-content-pagination)
-- [Error Handling](#user-content-error-handling)
-- [Logging](#user-content-logging)
-- [Development](#user-content-development)
-- [Publishing](#user-content-publishing)
-- [Changelog](#user-content-changelog)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Methods](#methods)
+- [Pagination](#pagination)
+- [Error Handling](#error-handling)
+- [Logging](#logging)
+- [Development](#development)
+- [Publishing](#publishing)
+- [Changelog](#changelog)
 
 ## Installation
 
@@ -57,19 +57,18 @@ The `api_key` is currently unused, but we anticipate adding in an API Gateway la
 ## Methods
 Refer to the [Certify Notifications API](https://github.com/USSBA/notifications-api) for more complete documentation and detailed examples of method responses.
 
+Note: The Notifications API has multiple versions that support different parameters. For example, v3 may require an `application_uuid` instead of an `application_id`. Refer to the API documentation to know which parameters to use depending on the version.
+
 ### Notifications
 | Method | Description |
 | ------ | ----------- |
 | `CertifyNotifications::Notification.where({recipient_id: 1})` | Query for all notifications for recipient_id = 1 |
 | `CertifyNotifications::Notification.create({ event_type: <string>, subtype: <string>, recipient_id: <int>, application_id <int>, email: <string>, options: <hash> })` | Create a new notification. Refer to https://github.com/USSBA/notification-api/ for valid `event_type`, `subtype`, and `options` values. |
+| `CertifyNotifications::Notification.create_soft({ event_type: <string>, subtype: <string>, recipient_id: <int>, application_id <int>, email: <string>, options: <hash> })` | Create a new notification with soft validation |
+| `CertifyNotifications::Notification.create_strict({ event_type: <string>, subtype: <string>, recipient_id: <int>, application_id <int>, email: <string>, options: <hash> })` | Create a new notification with strict validation |
 | `CertifyNotifications::Notification.update({ id: <int>, read: <boolean> })` | Update a notification. Ex. mark it as read |
 
 ### Notification Preferences
-
-The only valid parameters for the notification preferences are as follows:
-* user_id (integer, required)
-* subscribe_low_priority_emails (boolean, optional)
-* subscribe_high_priority_emails (boolean, optional)
 
 | Method | Description |
 | ------ | ----------- |
