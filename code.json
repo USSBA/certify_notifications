@@ -16,7 +16,7 @@
       },
       "laborHours": 460,
       "tags": ["SBA", "Certify", "Rails", "Notification"],
-      "contact": { "email" : "Andrew.Davy@sba.gov" },
+      "contact": { "email" : "Beau.Houser@sba.gov" },
       "vcs" : "git",
       "homepageURl": ""
     }
