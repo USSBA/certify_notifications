@@ -11,6 +11,10 @@ Thin wrapper for the [Certify Notification API](https://github.com/USSBA/notific
 - [Development](#development)
 - [Publishing](#publishing)
 - [Changelog](#changelog)
+- [License](#license)
+- [Contributing](#contributing)
+  - [Code of Conduct](#code-of-conduct)
+- [Security Issues](#security-issues)
 
 ## Installation
 
@@ -31,16 +35,16 @@ Add the following to your Gemfile to bring in the gem from GitHub:
 gem 'certify_notifications', git: 'git@github.com:USSBA/certify_notifications.git', branch: 'develop'
 ```
 
-This will pull the head of the develop branch in as a gem.  If there are updates to the gem repository, you will need to run `bundle update certify_notifications` to get them.
+This will pull the head of the develop branch in as a gem.  If there are updates to the gem repository, you will need to run `bundle update certify-notifications` to get them.
 
 ### Using it locally
 
 * Clone this repository
-* Add it to the Gemfile with the path:
+* Add it ot the Gemfile with the path:
+```
+gem 'certify_notification, path: '<path-to-the-gem-on-your-system>'
+```
 
-```
-gem 'certify_notifications', path: '<path-to-the-gem-on-your-system>'
-```
 ## Configuration
 Within the host application, set the Certify Notifications API URL in `config/initializers`, you probably also want to include a `notifications.yml` under `config` to be able to specify the URL based on your environment.
 
@@ -130,5 +134,58 @@ To release a new version:
 
 At this point, our CI process will kick-off, run the tests, and push the built gem into our Private Gem server.
 
+## Tests
+### RSpec Tests
+
+ To run the test suite, simply run:
+```
+rspec
+```
+
+ or with verbose output:
+```
+rspec -f d
+```
+
+ To view the coverage report, open
+```
+coverage/index.html
+```
+
+ ### Rubocop
+```
+rubocop -D
+```
+
+ #### Poirot Secrets Testing
+A secrets pattern file `poirot-patterns.txt` is included with the app to assist with running [Poirot](https://github.com/emanuelfeld/poirot) to scan commit history for secrets.  It is recommended to run this only the current branch only:
+```
+  poirot --patterns poirot-patterns.txt --revlist="develop^..HEAD"
+```
+Poirot will return an error status if it finds any secrets in the commit history between `HEAD` and develop.  You can correct these by: removing the secrets and squashing commits or by using something like BFG.
+
+ Note that Poirot is hardcoded to run in case-insensitive mode and uses two different regex engines (`git log --grep` and a 3rd-party Python regex library https://pypi.python.org/pypi/regex/ ). Refer to Lines 121 and 195 in `<python_path>/site-packages/poirot/poirot.py`. The result is that the 'ssn' matcher will flag on: 'ssn', 'SSN', or 'ssN', etc., which also finds 'className', producing false positive errors in the full rev history.  Initially we included the `(?c)` flag in the SSN matchers: `.*(ssn)(?c).*[:=]\s*[0-9-]{9,11}` however this is not compatible with all regex engines and causes an error in some cases.  During the `--revlist="all"` full history Poirot runs, this pattern failed silently with the `git --grep` engine and therefore did not actually run.  During the `--staged` Poirot runs, this pattern fails with a stack trace with the `pypi/regex` engine. The `(?c)` pattern has been removed entirely and so the `ssn` patterns can still flag on false positives like 'className'.
+
 ## Changelog
 Refer to the changelog for details on API updates. [CHANGELOG](CHANGELOG.md)
+
+## License
+Certify Notifications is licensed permissively under the Apache License v2.0.
+A copy of that license is distributed with this software.
+
+## Contributing
+We welcome contributions. Please read [CONTRIBUTING](CONTRIBUTING.md) for how to contribute.
+
+### Code of Conduct
+We strive for a welcoming and inclusive environment for the Certify Notifications project.
+
+Please follow this guidelines in all interactions:
+1. Be Respectful: use welcoming and inclusive language.
+2. Assume best intentions: seek to understand other's opinions.
+
+## Security Issues
+Please do not submit an issue on GitHub for a security vulnerability. Please contact the development team through the Certify Help Desk at [help@certify.sba.gov](mailto:help@certify.sba.gov).
+
+Be sure to include all the pertinent information.
+
+<sub>The agency reserves the right to change this policy at any time.</sub>
